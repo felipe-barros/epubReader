@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+	<style>
+		body {
+			margin: 0;
+		}
+
+		#reader {
+			height: 100vh;
+			width: 100vw;
+			overflow: hidden !important;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="reader"></div>
+</body>
+<script>
+	var book = ePub("../books/book.epub");
+	var rendition = book.renderTo("reader", { width: "100%", height: "100%" });
+	var displayed = rendition.display();
+</script>
+
+</html>

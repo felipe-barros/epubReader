@@ -15,9 +15,9 @@ function Home() {
     const [cl, setCl] = useState(null);
 
     let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
-    if (cl) {
+    if ("epubcfi(/6/4[x2__ano_Geografia_-_Livro_1]!/4[x2__ano_Geografia_-_Livro_1]/8[_idContainer043]/30/2/1:0)") {
         injectedJS = `${injectedJS}
-		window.BOOK_LOCATION = "${cl}";
+		window.BOOK_LOCATION = "epubcfi(/6/4[x2__ano_Geografia_-_Livro_1]!/4[x2__ano_Geografia_-_Livro_1]/8[_idContainer043]/30/2/1:0)";
 		`;
     }
     function goPrev() {
@@ -51,8 +51,6 @@ function Home() {
         refresh();
     }
 
-    console.log("Rodando")
-
     return (
         <SafeAreaView style={style.container}>
             <View style={style.content}>
@@ -71,7 +69,7 @@ function Home() {
                     }}
                     onMessage={(event) => {
                         setCl(event.nativeEvent.data);
-                        console.log(event.nativeEvent.data)
+                        console.log(event.nativeEvent.data);
                     }}
                 />
             </View>

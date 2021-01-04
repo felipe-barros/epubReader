@@ -1,57 +1,35 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Button, SafeAreaView, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import html from '../../templates/index.html';
 import themeToStyles from '../../utils/themeToStyles';
 import style from './style';
 
+const estilo = {
+    bg: '#FFF',
+    fg: '#FFF',
+    size: '150%',
+}
 function Home() {
     const webview = useRef();
-    const [theme, setTheme] = useState({
-        bg: '#FFF',
-        fg: '#000',
-        size: '150%',
-    })
-    const [cl, setCl] = useState(null);
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
-    if (cl) {
-        injectedJS = `${injectedJS}
-		window.BOOK_LOCATION = "${cl}";
-		`;
-    }
+    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(estilo))};`;
+
     function goPrev() {
         webview.current?.injectJavaScript(`window.rendition.prev(); true`);
     }
 
     function goNext() {
-        webview.current?.injectJavaScript(`window.rendition.next(); true`);
-    }
-
-    function refresh() {
-        webview.current?.injectJavaScript(`window.BOOK_LOCATION = "${cl}"`);
-        webview.current?.reload();
+        webview.current?.injectJavaScript(`window.rendition.next(); window.ReactNativeWebView.postMessage(window.rendition.currentLocation()); true`);
     }
 
     function decreaseFontSize() {
-        setTheme({
-            bg: '#FFF',
-            fg: '#000',
-            size: '100%',
-        });
-        refresh();
+        ß
     }
 
     function increaseFontSize() {
-        setTheme({
-            bg: '#FFF',
-            fg: '#000',
-            size: '200%',
-        });
-        refresh();
-    }
 
-    console.log("Rodando")
+    }
 
     return (
         <SafeAreaView style={style.container}>
@@ -62,16 +40,12 @@ function Home() {
                     originWhitelist={["*"]}
                     injectedJavaScriptBeforeContentLoaded={injectedJS}
                     scrollEnabled={false}
+                    onMessage={(event) => {
+                        setCurrentLocation(event.nativeEvent.data);
+                    }}
                     onLoadStart={(syntheticEvent) => {
                         // update component to be aware of loading status
-                        console.log("Start Loading")
-                    }}
-                    onLoadEnd={(syntheticEvent) => {
-                        console.log("End Loading")
-                    }}
-                    onMessage={(event) => {
-                        setCl(event.nativeEvent.data);
-                        console.log(event.nativeEvent.data)
+                        alert("Loading")
                     }}
                 />
             </View>

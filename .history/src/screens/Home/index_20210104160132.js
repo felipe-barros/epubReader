@@ -14,12 +14,12 @@ function Home() {
     })
     const [cl, setCl] = useState(null);
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
+    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))}; true`;
     if (cl) {
         injectedJS = `${injectedJS}
-		window.BOOK_LOCATION = "${cl}";
-		`;
+        window.BOOK_LOCATION = ${cl}; true`;
     }
+
     function goPrev() {
         webview.current?.injectJavaScript(`window.rendition.prev(); true`);
     }
@@ -43,6 +43,7 @@ function Home() {
     }
 
     function increaseFontSize() {
+        console.log(cl);
         setTheme({
             bg: '#FFF',
             fg: '#000',
@@ -51,7 +52,9 @@ function Home() {
         refresh();
     }
 
-    console.log("Rodando")
+    function getCurrentLocation() {
+        webview.current?.injectJavaScript(`window.ReactNativeWebView.postMessage(window.rendition.currentLocation()); true`);
+    }
 
     return (
         <SafeAreaView style={style.container}>
@@ -71,13 +74,13 @@ function Home() {
                     }}
                     onMessage={(event) => {
                         setCl(event.nativeEvent.data);
-                        console.log(event.nativeEvent.data)
                     }}
                 />
             </View>
             <View style={style.footer}>
                 <Button title='Anterior' color='#FFF' onPress={goPrev} />
                 <Button title='-' color='#FFF' onPress={decreaseFontSize} />
+                <Button title='o' color='#FFF' onPress={getCurrentLocation} />
                 <Button title='+' color='#FFF' onPress={increaseFontSize} />
                 <Button title='Próxima' color='#FFF' onPress={goNext} />
             </View>

@@ -51,8 +51,6 @@ function Home() {
         refresh();
     }
 
-    console.log("Rodando")
-
     return (
         <SafeAreaView style={style.container}>
             <View style={style.content}>

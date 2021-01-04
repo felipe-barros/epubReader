@@ -5,53 +5,55 @@ import html from '../../templates/index.html';
 import themeToStyles from '../../utils/themeToStyles';
 import style from './style';
 
+const estilo = {
+    bg: '#FFF',
+    fg: '#FFF',
+    size: '150%',
+}
 function Home() {
+    const [fontSize, setFontSize] = useState("100%");
+    const [currentLocation, setCurrentLocation] = useState(null);
     const webview = useRef();
-    const [theme, setTheme] = useState({
-        bg: '#FFF',
-        fg: '#000',
-        size: '150%',
-    })
-    const [cl, setCl] = useState(null);
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
-    if (cl) {
-        injectedJS = `${injectedJS}
-		window.BOOK_LOCATION = "${cl}";
-		`;
-    }
+    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(estilo))};`;
+
     function goPrev() {
         webview.current?.injectJavaScript(`window.rendition.prev(); true`);
     }
 
     function goNext() {
-        webview.current?.injectJavaScript(`window.rendition.next(); true`);
+        webview.current?.injectJavaScript(`window.rendition.next(); window.ReactNativeWebView.postMessage(window.rendition.currentLocation()); true`);
     }
 
     function refresh() {
-        webview.current?.injectJavaScript(`window.BOOK_LOCATION = "${cl}"`);
+        webview.current?.injectJavaScript(`window.BOOK_LOCATION = "${currentLocation}"`);
         webview.current?.reload();
     }
 
     function decreaseFontSize() {
-        setTheme({
+        setFontSize("10%");
+        webview.current?.injectJavaScript(`
+		window.rendition.themes.register({ theme: "${JSON.stringify(themeToStyles({
             bg: '#FFF',
-            fg: '#000',
-            size: '100%',
-        });
-        refresh();
+            fg: '#FFF',
+            size: '10%',
+        }))}" });
+        window.rendition.themes.select('theme'); true`);
+        // refresh();
     }
 
     function increaseFontSize() {
-        setTheme({
-            bg: '#FFF',
-            fg: '#000',
-            size: '200%',
-        });
+        console.log(currentLocation)
+        setFontSize("300%");
+        webview.current?.injectJavaScript(`
+		window.rendition.themes.register({ theme: "${JSON.stringify(themeToStyles({
+            bg: '#000 !important',
+            fg: '#FFF',
+            size: '300%',
+        }))}" });
+        window.rendition.themes.select('theme'); true`);
         refresh();
     }
-
-    console.log("Rodando")
 
     return (
         <SafeAreaView style={style.container}>
@@ -62,16 +64,8 @@ function Home() {
                     originWhitelist={["*"]}
                     injectedJavaScriptBeforeContentLoaded={injectedJS}
                     scrollEnabled={false}
-                    onLoadStart={(syntheticEvent) => {
-                        // update component to be aware of loading status
-                        console.log("Start Loading")
-                    }}
-                    onLoadEnd={(syntheticEvent) => {
-                        console.log("End Loading")
-                    }}
                     onMessage={(event) => {
-                        setCl(event.nativeEvent.data);
-                        console.log(event.nativeEvent.data)
+                        setCurrentLocation(event.nativeEvent.data);
                     }}
                 />
             </View>

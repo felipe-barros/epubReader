@@ -14,12 +14,12 @@ function Home() {
     })
     const [cl, setCl] = useState(null);
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
+    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))}; true`;
     if (cl) {
         injectedJS = `${injectedJS}
-		window.BOOK_LOCATION = "${cl}";
-		`;
+        window.BOOK_LOCATION = ${cl}`;
     }
+
     function goPrev() {
         webview.current?.injectJavaScript(`window.rendition.prev(); true`);
     }
@@ -51,8 +51,6 @@ function Home() {
         refresh();
     }
 
-    console.log("Rodando")
-
     return (
         <SafeAreaView style={style.container}>
             <View style={style.content}>
@@ -71,7 +69,6 @@ function Home() {
                     }}
                     onMessage={(event) => {
                         setCl(event.nativeEvent.data);
-                        console.log(event.nativeEvent.data)
                     }}
                 />
             </View>

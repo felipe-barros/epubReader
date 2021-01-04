@@ -12,14 +12,9 @@ function Home() {
         fg: '#000',
         size: '150%',
     })
-    const [cl, setCl] = useState(null);
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
-    if (cl) {
-        injectedJS = `${injectedJS}
-		window.BOOK_LOCATION = "${cl}";
-		`;
-    }
+    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(estilo))};`;
+
     function goPrev() {
         webview.current?.injectJavaScript(`window.rendition.prev(); true`);
     }
@@ -29,8 +24,14 @@ function Home() {
     }
 
     function refresh() {
-        webview.current?.injectJavaScript(`window.BOOK_LOCATION = "${cl}"`);
         webview.current?.reload();
+    }
+
+    function changeThemeStyle(newTheme) {
+        webview.current?.injectJavaScript(`
+		window.rendition.themes.register({ theme: "${JSON.stringify(themeToStyles(newTheme))}" });
+		window.rendition.themes.select('theme');`);
+        refresh();
     }
 
     function decreaseFontSize() {
@@ -51,8 +52,6 @@ function Home() {
         refresh();
     }
 
-    console.log("Rodando")
-
     return (
         <SafeAreaView style={style.container}>
             <View style={style.content}>
@@ -68,10 +67,6 @@ function Home() {
                     }}
                     onLoadEnd={(syntheticEvent) => {
                         console.log("End Loading")
-                    }}
-                    onMessage={(event) => {
-                        setCl(event.nativeEvent.data);
-                        console.log(event.nativeEvent.data)
                     }}
                 />
             </View>

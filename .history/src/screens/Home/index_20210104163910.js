@@ -51,8 +51,6 @@ function Home() {
         refresh();
     }
 
-    console.log("Rodando")
-
     return (
         <SafeAreaView style={style.container}>
             <View style={style.content}>
@@ -71,7 +69,6 @@ function Home() {
                     }}
                     onMessage={(event) => {
                         setCl(event.nativeEvent.data);
-                        console.log(event.nativeEvent.data)
                     }}
                 />
             </View>

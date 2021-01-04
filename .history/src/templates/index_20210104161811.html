@@ -36,7 +36,7 @@
 		window.book.locations.load(window.LOCATIONS);
 	} else {
 		window.book.ready.then(() => {
-			window.book.locations.generate(1600).then(() => {
+			window.book.locations.generate(1650).then(() => {
 				// window.ReactNativeWebView.postMessage(
 				// 	JSON.stringify({ type: 'locations', locations: window.book.locations.save() })
 				// );
@@ -45,8 +45,8 @@
 	}
 
 	window.rendition.on('started', () => {
-		window.rendition.display(window.BOOK_LOCATION)
-
+		window.rendition.display()
+		// window.rendition.display(window.BOOK_LOCATION);
 		window.rendition.themes.register({ theme: window.THEME });
 		window.rendition.themes.select('theme');
 		// window.ReactNativeWebView.postMessage(
@@ -55,7 +55,7 @@
 	});
 
 	rendition.on('relocated', function (location) {
-		window.ReactNativeWebView.postMessage(location.start.cfi);
+		window.ReactNativeWebView.postMessage(location.start.location);
 	});
 </script>
 

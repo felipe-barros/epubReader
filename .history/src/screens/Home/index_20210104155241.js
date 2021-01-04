@@ -7,19 +7,14 @@ import style from './style';
 
 function Home() {
     const webview = useRef();
-    const [theme, setTheme] = useState({
+    const [cl, setCl] = useState(null);
+
+    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles({
         bg: '#FFF',
         fg: '#000',
         size: '150%',
-    })
-    const [cl, setCl] = useState(null);
+    }))}; true`;
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
-    if (cl) {
-        injectedJS = `${injectedJS}
-		window.BOOK_LOCATION = "${cl}";
-		`;
-    }
     function goPrev() {
         webview.current?.injectJavaScript(`window.rendition.prev(); true`);
     }
@@ -29,29 +24,36 @@ function Home() {
     }
 
     function refresh() {
-        webview.current?.injectJavaScript(`window.BOOK_LOCATION = "${cl}"`);
+        // webview.current?.injectJavaScript(`window.BOOK_LOCATION = "${cl}"`);
         webview.current?.reload();
     }
 
+    function changeThemeStyle(newTheme) {
+        webview.current?.injectJavaScript(`
+		window.rendition.themes.register({ theme: "${JSON.stringify(themeToStyles(newTheme))}" });
+		window.rendition.themes.select('theme'); true`);
+        refresh();
+    }
+
     function decreaseFontSize() {
-        setTheme({
+        changeThemeStyle({
             bg: '#FFF',
             fg: '#000',
             size: '100%',
-        });
-        refresh();
+        })
     }
 
     function increaseFontSize() {
-        setTheme({
+        changeThemeStyle({
             bg: '#FFF',
             fg: '#000',
             size: '200%',
-        });
-        refresh();
+        })
     }
 
-    console.log("Rodando")
+    function getCurrentLocation() {
+        webview.current?.injectJavaScript(`window.ReactNativeWebView.postMessage(window.rendition.currentLocation()); true`);
+    }
 
     return (
         <SafeAreaView style={style.container}>
@@ -71,13 +73,14 @@ function Home() {
                     }}
                     onMessage={(event) => {
                         setCl(event.nativeEvent.data);
-                        console.log(event.nativeEvent.data)
+                        console.log("ok");
                     }}
                 />
             </View>
             <View style={style.footer}>
                 <Button title='Anterior' color='#FFF' onPress={goPrev} />
                 <Button title='-' color='#FFF' onPress={decreaseFontSize} />
+                <Button title='o' color='#FFF' onPress={getCurrentLocation} />
                 <Button title='+' color='#FFF' onPress={increaseFontSize} />
                 <Button title='Próxima' color='#FFF' onPress={goNext} />
             </View>

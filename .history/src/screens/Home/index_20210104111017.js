@@ -6,9 +6,11 @@ import themeToStyles from '../../utils/themeToStyles';
 import style from './style';
 
 const estilo = {
-    bg: '#FFF',
-    fg: '#FFF',
-    size: '100%',
+    bg: '#000',
+    fg: '#9e4321',
+    font: 'Default',
+    size: '150%',
+    height: 'normal'
 }
 function Home() {
     const [fontSize, setFontSize] = useState("100%");

@@ -8,7 +8,9 @@ import style from './style';
 const estilo = {
     bg: '#FFF',
     fg: '#FFF',
-    size: '100%',
+    font: 'Default',
+    size: '150%',
+    height: 'normal'
 }
 function Home() {
     const [fontSize, setFontSize] = useState("100%");

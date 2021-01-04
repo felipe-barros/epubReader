@@ -6,15 +6,34 @@ import themeToStyles from '../../utils/themeToStyles';
 import style from './style';
 
 const estilo = {
-    bg: '#FFF',
-    fg: '#FFF',
-    size: '100%',
+    body: {
+        background: '#fafafa',
+        color: '#121212',
+        'font-family': 'Default',
+        'font-size': '100%',
+        'line-height': 'normal'
+    },
+    p: {
+        color: '#ffffff',
+        'font-family': 'Default',
+        'font-size': '100%',
+        'line-height': 'normal'
+    },
+    li: {
+        color: '#ffffff',
+        'font-family': 'Default',
+        'font-size': '100%',
+        'line-height': 'normal'
+    },
+    h1: {
+        color: '#ffffff'
+    }
 }
 function Home() {
     const [fontSize, setFontSize] = useState("100%");
     const webview = useRef();
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(estilo))};`;
+    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(themeToStyles(estilo)))};`;
 
     function goPrev() {
         webview.current?.injectJavaScript(`window.rendition.prev(); true`);
@@ -52,7 +71,6 @@ function Home() {
                     source={html}
                     originWhitelist={["*"]}
                     injectedJavaScriptBeforeContentLoaded={injectedJS}
-                    scrollEnabled={false}
                 />
             </View>
             <View style={style.footer}>

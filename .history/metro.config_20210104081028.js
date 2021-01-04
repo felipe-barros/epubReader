@@ -5,15 +5,7 @@
  * @format
  */
 
-const defaultAssetExts = require("metro-config/src/defaults/defaults").assetExts;
-
 module.exports = {
-  resolver: {
-    assetExts: [
-      ...defaultAssetExts,
-      "epub",
-    ]
-  },
   transformer: {
     getTransformOptions: async () => ({
       transform: {

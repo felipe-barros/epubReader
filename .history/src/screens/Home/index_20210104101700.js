@@ -5,16 +5,11 @@ import html from '../../templates/index.html';
 import themeToStyles from '../../utils/themeToStyles';
 import style from './style';
 
-const estilo = {
-    bg: '#FFF',
-    fg: '#FFF',
-    size: '100%',
-}
 function Home() {
     const [fontSize, setFontSize] = useState("100%");
     const webview = useRef();
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(estilo))};`;
+    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles({ size: "100%" }))};`;
 
     function goPrev() {
         webview.current?.injectJavaScript(`window.rendition.prev(); true`);
@@ -52,7 +47,6 @@ function Home() {
                     source={html}
                     originWhitelist={["*"]}
                     injectedJavaScriptBeforeContentLoaded={injectedJS}
-                    scrollEnabled={false}
                 />
             </View>
             <View style={style.footer}>

@@ -11,7 +11,8 @@ module.exports = {
   resolver: {
     assetExts: [
       ...defaultAssetExts,
-      "epub",
+      "js",
+      "css"
     ]
   },
   transformer: {

@@ -6,9 +6,11 @@ import themeToStyles from '../../utils/themeToStyles';
 import style from './style';
 
 const estilo = {
-    bg: '#FFF',
-    fg: '#FFF',
+    bg: '#9e4321',
+    fg: '#121212',
+    font: 'Default',
     size: '100%',
+    height: 'normal'
 }
 function Home() {
     const [fontSize, setFontSize] = useState("100%");
@@ -52,7 +54,6 @@ function Home() {
                     source={html}
                     originWhitelist={["*"]}
                     injectedJavaScriptBeforeContentLoaded={injectedJS}
-                    scrollEnabled={false}
                 />
             </View>
             <View style={style.footer}>

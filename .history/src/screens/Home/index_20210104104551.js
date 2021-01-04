@@ -6,13 +6,17 @@ import themeToStyles from '../../utils/themeToStyles';
 import style from './style';
 
 const estilo = {
-    bg: '#FFF',
-    fg: '#FFF',
-    size: '100%',
+    bg: '#9e4321',
+    fg: '#9e4321',
+    font: 'Default',
+    size: '150%',
+    height: 'normal'
 }
 function Home() {
     const [fontSize, setFontSize] = useState("100%");
     const webview = useRef();
+
+    console.log(themeToStyles(estilo))
 
     let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(estilo))};`;
 
@@ -52,7 +56,6 @@ function Home() {
                     source={html}
                     originWhitelist={["*"]}
                     injectedJavaScriptBeforeContentLoaded={injectedJS}
-                    scrollEnabled={false}
                 />
             </View>
             <View style={style.footer}>

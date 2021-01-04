@@ -1,20 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Button, SafeAreaView, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import html from '../../templates/index.html';
-import themeToStyles from '../../utils/themeToStyles';
 import style from './style';
 
-const estilo = {
-    bg: '#FFF',
-    fg: '#FFF',
-    size: '100%',
-}
 function Home() {
-    const [fontSize, setFontSize] = useState("100%");
     const webview = useRef();
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(estilo))};`;
+    let injectedJS = `window.BOOK_PATH = "../books/book.epub";`;
 
     function goPrev() {
         webview.current?.injectJavaScript(`window.rendition.prev(); true`);
@@ -24,24 +17,12 @@ function Home() {
         webview.current?.injectJavaScript(`window.rendition.next(); true`);
     }
 
-    function refresh() {
-        webview.current?.reload();
+    function increaseFontSize() {
+        return 1
     }
 
     function decreaseFontSize() {
-        setFontSize("10%");
-        webview.current?.injectJavaScript(`
-		window.rendition.themes.register({ theme: "${JSON.stringify(themeToStyles({ size: "50%" }))}" });
-        window.rendition.themes.select('theme')`);
-        refresh();
-    }
-
-    function increaseFontSize() {
-        setFontSize("200%");
-        webview.current?.injectJavaScript(`
-		window.rendition.themes.register({ theme: "${JSON.stringify(themeToStyles({ size: "300%" }))}" });
-        window.rendition.themes.select('theme')`);
-        refresh();
+        return 1
     }
 
     return (
@@ -52,7 +33,6 @@ function Home() {
                     source={html}
                     originWhitelist={["*"]}
                     injectedJavaScriptBeforeContentLoaded={injectedJS}
-                    scrollEnabled={false}
                 />
             </View>
             <View style={style.footer}>

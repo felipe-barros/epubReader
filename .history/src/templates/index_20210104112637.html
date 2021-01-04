@@ -35,6 +35,10 @@
 
 	window.rendition.themes.register({ theme: window.THEME });
 	window.rendition.themes.select('theme');
+
+	window.rendition.on("relocated", function (location) {
+		window.ReactNativeWebView.postMessage(window.book.locations.generate(10));
+	});
 </script>
 
 </html>

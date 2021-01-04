@@ -32,9 +32,15 @@
 		height: '100%'
 	});
 	window.rendition.display();
+	// window.rendition.themes.register({ theme: window.THEME });
+	// window.rendition.themes.select('theme');
 
-	window.rendition.themes.register({ theme: window.THEME });
-	window.rendition.themes.select('theme');
+	window.book.rendition.themes.register("black",
+		{
+			"body": { "background-color": "#111111" },
+			"html": { "-webkit-filter": "invert(1) hue-rotate(180deg)", "filter": "invert(1) hue-rotate(180deg)" },
+			"img": { "-webkit-filter": "invert(1) hue-rotate(180deg)", "filter": "invert(1) hue-rotate(180deg)" }
+		});
 </script>
 
 </html>

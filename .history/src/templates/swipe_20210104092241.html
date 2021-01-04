@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EPUB.js Pagination Example</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+
+    <!-- <link rel="stylesheet" type="text/css" href="examples.css"> -->
+
+    <style type="text/css">
+        body {
+            display: flex;
+        }
+
+        #viewer {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #arrowContainer {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .arrow {
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div id="viewer"></div>
+        <div id="arrowContainer">
+            <div id="prev" class="arrow">Anterior</div>
+            <div id="next" class="arrow">Próxima</div>
+        </div>
+    </div>
+    <script>
+        // Load the opf
+        var book = ePub("../books/book.epub");
+        var rendition = book.renderTo("viewer", {
+            manager: "continuous",
+            flow: "paginated"
+        });
+
+        var displayed = rendition.display();
+
+        displayed.then(function (renderer) {
+            // -- do stuff
+        });
+
+        // Navigation loaded
+        book.loaded.navigation.then(function (toc) {
+            // console.log(toc);
+        });
+
+        var next = document.getElementById("next");
+        next.addEventListener("click", function () {
+            rendition.next();
+        }, false);
+
+        var prev = document.getElementById("prev");
+        prev.addEventListener("click", function () {
+            rendition.prev();
+        }, false);
+
+        document.addEventListener("keyup", function (e) {
+
+            // Left Key
+            if ((e.keyCode || e.which) == 37) {
+                rendition.prev();
+            }
+
+            // Right Key
+            if ((e.keyCode || e.which) == 39) {
+                rendition.next();
+            }
+
+        }, false);
+
+        // Add a single css
+        rendition.hooks.content.register(function (contents) {
+            return contents.addStylesheet("example.css")
+                .then(function () {
+                    // init code
+                });
+        });
+
+
+    </script>
+
+</body>
+
+</html>

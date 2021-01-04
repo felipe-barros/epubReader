@@ -8,7 +8,7 @@ import style from './style';
 const estilo = {
     bg: '#FFF',
     fg: '#FFF',
-    size: '100%',
+    size: '150%',
 }
 function Home() {
     const [fontSize, setFontSize] = useState("100%");
@@ -53,6 +53,9 @@ function Home() {
                     originWhitelist={["*"]}
                     injectedJavaScriptBeforeContentLoaded={injectedJS}
                     scrollEnabled={false}
+                    onMessage={(event) => {
+                        console.log(event.nativeEvent.data);
+                    }}
                 />
             </View>
             <View style={style.footer}>

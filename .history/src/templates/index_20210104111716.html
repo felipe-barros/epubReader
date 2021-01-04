@@ -35,6 +35,10 @@
 
 	window.rendition.themes.register({ theme: window.THEME });
 	window.rendition.themes.select('theme');
+
+	rendition.on("relocated", function (location) {
+		console.log(location);
+	});
 </script>
 
 </html>

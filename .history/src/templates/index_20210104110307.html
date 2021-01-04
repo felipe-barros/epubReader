@@ -32,9 +32,17 @@
 		height: '100%'
 	});
 	window.rendition.display();
+	// window.rendition.themes.register({ theme: window.THEME });
+	// window.rendition.themes.select('theme');
 
-	window.rendition.themes.register({ theme: window.THEME });
-	window.rendition.themes.select('theme');
+	window.book.rendition.themes.register("black",
+		{
+			"h1": { "color": "#9b42f5" },
+			"body": { "background-color": "#9b42f5" },
+			"html": { "-webkit-filter": "invert(1) hue-rotate(180deg)", "filter": "invert(1) hue-rotate(180deg)" },
+			"img": { "-webkit-filter": "invert(1) hue-rotate(180deg)", "filter": "invert(1) hue-rotate(180deg)" }
+		});
+	window.rendition.themes.select('black');
 </script>
 
 </html>

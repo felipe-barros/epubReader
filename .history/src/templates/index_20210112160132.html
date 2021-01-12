@@ -36,7 +36,7 @@
 		window.book.locations.load(window.LOCATIONS);
 	} else {
 		window.book.ready.then(() => {
-			window.book.locations.generate(1650).then(() => {
+			window.book.locations.generate(1600).then(() => {
 				window.ReactNativeWebView.postMessage(
 					JSON.stringify({ type: 'locations', locations: window.book.locations.save() })
 				);
@@ -44,19 +44,21 @@
 		});
 	}
 
-	window.rendition.on('started', (e) => {
+	window.rendition.on('started', () => {
 		window.rendition.display(window.BOOK_LOCATION)
 
 		window.rendition.themes.register({ theme: window.THEME });
 		window.rendition.themes.select('theme');
+
+		// window.ReactNativeWebView.postMessage(
+		// 	JSON.stringify({ type: 'key', key: window.book.key() })
+		// );
 	});
 
-	rendition.on('relocated', function (e) {
+	rendition.on('relocated', function (location) {
 		window.ReactNativeWebView.postMessage(JSON.stringify({
 			type: 'loc', 
-			cfi: e.start.cfi, 
-			progress: e.start.location,
-			totalPages: window.book.locations.length()
+			cfi: location.start.cfi, 
 		}));
 	});
 

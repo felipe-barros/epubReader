@@ -31,11 +31,8 @@ function Home() {
     const [isModalVisibleSearch, setisModalVisibleSearch] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [lastMarkedCfi, setLastMarkedCfi] = useState("");
-    const [totalPages, setTotalPages] = useState(-1);
-    const [progress, setProgress] = useState(-1);
-    const [locations, setLocations] = useState(null);
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.LOCATIONS = ${locations}; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
+    let injectedJS = `window.BOOK_PATH = "../books/book2.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
         injectedJS = `${injectedJS}
 		window.BOOK_LOCATION = "${cl}";
@@ -124,23 +121,18 @@ function Home() {
         let { type } = parsedData;
 
         delete parsedData.type;
+
         switch (type) {
             case 'search':
                 const results = parsedData.results;
+
                 if (results.length > 0) {
                     setSearchResults(results)
                 }
                 return;
             case 'loc':
-                // console.log(parsedData.progress, parsedData.totalPages)
-                setTotalPages(parsedData.totalPages);
-                setProgress(parsedData.progress + 1)
-                setCl(parsedData.cfi);
-                return;
-            case 'locations':
-                setLocations(parsedData.locations);
-                // console.log(parsedData.locations)
-                // setCl(parsedData.location);
+                console.log("a")
+                setCl(parsedData.location);
                 return;
             default:
                 return;
@@ -209,7 +201,7 @@ function Home() {
             </View>
             <View style={style.footer}>
                 <Icon name="chevron-back-outline" color="#FFF" size={30} onPress={goPrev} />
-                <Text style={style.footerText}>{progress} de {totalPages}</Text>
+                <Text style={style.footerText}>28 de 256</Text>
                 <Icon name="chevron-forward-outline" color="#FFF" size={30} onPress={goNext} />
             </View>
             <Modal

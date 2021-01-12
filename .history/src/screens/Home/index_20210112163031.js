@@ -35,7 +35,7 @@ function Home() {
     const [progress, setProgress] = useState(-1);
     const [locations, setLocations] = useState(null);
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.LOCATIONS = ${locations}; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
+    let injectedJS = `window.BOOK_PATH = "../books/book2.epub"; window.LOCATIONS = ${locations}; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
         injectedJS = `${injectedJS}
 		window.BOOK_LOCATION = "${cl}";
@@ -142,6 +142,9 @@ function Home() {
                 // console.log(parsedData.locations)
                 // setCl(parsedData.location);
                 return;
+            case 'start':
+                console.log('a')
+                return
             default:
                 return;
         }

@@ -31,11 +31,9 @@ function Home() {
     const [isModalVisibleSearch, setisModalVisibleSearch] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [lastMarkedCfi, setLastMarkedCfi] = useState("");
-    const [totalPages, setTotalPages] = useState(-1);
-    const [progress, setProgress] = useState(-1);
-    const [locations, setLocations] = useState(null);
+    const [totalPages, setTotalPages] = useState(0);
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.LOCATIONS = ${locations}; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
+    let injectedJS = `window.BOOK_PATH = "../books/book2.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
         injectedJS = `${injectedJS}
 		window.BOOK_LOCATION = "${cl}";
@@ -134,11 +132,9 @@ function Home() {
             case 'loc':
                 // console.log(parsedData.progress, parsedData.totalPages)
                 setTotalPages(parsedData.totalPages);
-                setProgress(parsedData.progress + 1)
                 setCl(parsedData.cfi);
                 return;
             case 'locations':
-                setLocations(parsedData.locations);
                 // console.log(parsedData.locations)
                 // setCl(parsedData.location);
                 return;
@@ -209,7 +205,7 @@ function Home() {
             </View>
             <View style={style.footer}>
                 <Icon name="chevron-back-outline" color="#FFF" size={30} onPress={goPrev} />
-                <Text style={style.footerText}>{progress} de {totalPages}</Text>
+                <Text style={style.footerText}>28 de {totalPages}</Text>
                 <Icon name="chevron-forward-outline" color="#FFF" size={30} onPress={goNext} />
             </View>
             <Modal

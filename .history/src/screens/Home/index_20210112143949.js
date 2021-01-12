@@ -26,16 +26,12 @@ function Home() {
     const [cl, setCl] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
     const [search, setSearch] = useState('');
-    const [searchedWord, setSearchedWord] = useState('');
     const [isModalVisibleFont, setisModalVisibleFont] = useState(false);
     const [isModalVisibleSearch, setisModalVisibleSearch] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [lastMarkedCfi, setLastMarkedCfi] = useState("");
-    const [totalPages, setTotalPages] = useState(-1);
-    const [progress, setProgress] = useState(-1);
-    const [locations, setLocations] = useState(null);
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.LOCATIONS = ${locations}; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
+    let injectedJS = `window.BOOK_PATH = "../books/book2.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
         injectedJS = `${injectedJS}
 		window.BOOK_LOCATION = "${cl}";
@@ -60,10 +56,10 @@ function Home() {
         window.rendition.annotations.remove("${lastMarkedCfi}", "highlight");
         window.rendition.annotations.highlight("${href}", {}, (e) => {
             console.log("highlight clicked", e.target);
-        }, "", {"fill": "yellow"});
+        }, "", {"fill": "dodgerblue"});
         true`);
         setLastMarkedCfi(href);
-        setisModalVisibleSearch(false);
+        setisModalVisibleFont(false);
     }
 
     function decreaseFontSize() {
@@ -101,8 +97,6 @@ function Home() {
     }
 
     function goSearch() {
-        setSearchedWord(search);
-
         webview.current?.injectJavaScript(`
 		Promise.all(
 			window.book.spine.spineItems.map((item) => {
@@ -116,7 +110,7 @@ function Home() {
 			window.ReactNativeWebView.postMessage(
 				JSON.stringify({ type: 'search', results: [].concat.apply([], results) })
 			)
-        ); true`);
+		); true`);
     }
 
     function handleMessage(msg) {
@@ -124,23 +118,17 @@ function Home() {
         let { type } = parsedData;
 
         delete parsedData.type;
+
         switch (type) {
             case 'search':
                 const results = parsedData.results;
                 if (results.length > 0) {
                     setSearchResults(results)
+                    setisModalVisibleFont(true);
                 }
                 return;
             case 'loc':
-                // console.log(parsedData.progress, parsedData.totalPages)
-                setTotalPages(parsedData.totalPages);
-                setProgress(parsedData.progress + 1)
-                setCl(parsedData.cfi);
-                return;
-            case 'locations':
-                setLocations(parsedData.locations);
-                // console.log(parsedData.locations)
-                // setCl(parsedData.location);
+                setCl(parsedData.location);
                 return;
             default:
                 return;
@@ -164,13 +152,20 @@ function Home() {
     }
 
     function renderResult({ item }) {
-        const splittedText = item.excerpt.split(searchedWord);
+        const splittedText = item.excerpt.split(search);
 
         return (
             <TouchableOpacity style={style.resultFound} activeOpacity={0.4} onPress={() => goToLocation(item.cfi)}>
-                <Text style={style.resultFoundTitle}>{splittedText[0]}<Text style={style.resultFoundTitleBold}>{searchedWord}</Text>{splittedText[1]}</Text>
+                <Text style={style.resultFoundTitle}>{splittedText[0]}<Text style={style.resultFoundTitleBold}>{search}</Text>{splittedText[1]}</Text>
             </TouchableOpacity>
         )
+    }
+
+    function onChangeSearch(text) {
+        setSearch(text);
+        if (text.length > 2) {
+            goSearch();
+        }
     }
 
     return (
@@ -208,10 +203,19 @@ function Home() {
                 />
             </View>
             <View style={style.footer}>
-                <Icon name="chevron-back-outline" color="#FFF" size={30} onPress={goPrev} />
-                <Text style={style.footerText}>{progress} de {totalPages}</Text>
-                <Icon name="chevron-forward-outline" color="#FFF" size={30} onPress={goNext} />
+                <Text style={style.footerText}>28 de 256</Text>
             </View>
+            {/* <View style={style.footer2}>
+                <TextInput placeholder="Busca por palavra" onChangeText={setSearch} style={style.textInput} placeholderTextColor='#111' />
+                <Button title='Buscar' color='#FFF' onPress={goSearch} disabled={search.length > 0 ? false : true} />
+            </View>
+            <View style={style.footer}>
+                <Button title='Anterior' color='#FFF' onPress={goPrev} />
+                <Button title='a-' color='#FFF' onPress={decreaseFontSize} />
+                <Button title='o' color='#FFF' onPress={goDarkMode} />
+                <Button title='A+' color='#FFF' onPress={increaseFontSize} />
+                <Button title='Próxima' color='#FFF' onPress={goNext} />
+            </View> */}
             <Modal
                 visible={isModalVisibleFont}
                 animationType="slide"
@@ -241,15 +245,17 @@ function Home() {
                 transparent={true}>
                 <View style={style.modalContainer}>
                     <View style={style.resultsContainer}>
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <TextInput value={search} placeholder='Buscar palavra' onChangeText={setSearch} style={{ padding: 10, borderRadius: 5, backgroundColor: 'lightgray', width: '65%' }} placeholderTextColor='#000' />
-                            <Button title="Buscar" onPress={goSearch} style={{ width: '100%' }} />
-                            <Button title="Voltar" onPress={() => setisModalVisibleSearch(false)} style={{ width: '100%' }} />
+                        <View style={{ flexDirection: "row" alignItems: "center" }}>
+                            <TextInput placeholder='Buscar palavra' onChangeText={(text) => onChangeSearch(text)} style={{ padding: 20, backgroundColor: 'lightgray', width: '100%' }} />
+                            <Button title="Voltar" onPress={() => setisModalVisibleSearch(false)} />
                         </View>
-                        <FlatList
-                            data={searchResults}
-                            renderItem={renderResult}
-                            keyExtractor={(item, index) => index.toString()} />
+                        {
+                            searchResults.length > 0 &&
+                            <FlatList
+                                data={searchResults}
+                                renderItem={renderResult}
+                                keyExtractor={(item, index) => index.toString()} />
+                        }
                     </View>
                 </View>
             </Modal>

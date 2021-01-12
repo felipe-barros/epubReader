@@ -49,6 +49,10 @@
 
 		window.rendition.themes.register({ theme: window.THEME });
 		window.rendition.themes.select('theme');
+		window.ReactNativeWebView.postMessage(JSON.stringify({
+			type: 'start', 
+			totalPages: window.book.locations.length()
+		}));
 	});
 
 	rendition.on('relocated', function (e) {

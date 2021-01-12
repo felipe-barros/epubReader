@@ -31,11 +31,11 @@ function Home() {
     const [isModalVisibleSearch, setisModalVisibleSearch] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [lastMarkedCfi, setLastMarkedCfi] = useState("");
-    const [totalPages, setTotalPages] = useState(-1);
-    const [progress, setProgress] = useState(-1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [progress, setProgress] = useState(0);
     const [locations, setLocations] = useState(null);
 
-    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.LOCATIONS = ${locations}; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
+    let injectedJS = `window.BOOK_PATH = "../books/book2.epub"; window.LOCATIONS = ${locations}; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
         injectedJS = `${injectedJS}
 		window.BOOK_LOCATION = "${cl}";
@@ -134,7 +134,7 @@ function Home() {
             case 'loc':
                 // console.log(parsedData.progress, parsedData.totalPages)
                 setTotalPages(parsedData.totalPages);
-                setProgress(parsedData.progress + 1)
+                setProgress(parsedData.progress)
                 setCl(parsedData.cfi);
                 return;
             case 'locations':

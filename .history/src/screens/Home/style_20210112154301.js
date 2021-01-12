@@ -25,9 +25,7 @@ export default StyleSheet.create({
     },
     footer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 20,
-        alignItems: 'center'
+        justifyContent: 'space-between'
     },
     footerText: {
         color: '#FFF',

@@ -48,7 +48,7 @@ export default StyleSheet.create({
     },
     resultFound: {
         marginBottom: 10,
-        paddingBottom: 10,
+        paddingBottom: 5,
         borderBottomWidth: 0.5,
         borderBottomColor: 'gray'
     },

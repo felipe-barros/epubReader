@@ -48,9 +48,8 @@ export default StyleSheet.create({
     },
     resultFound: {
         marginBottom: 10,
-        paddingBottom: 10,
         borderBottomWidth: 0.5,
-        borderBottomColor: 'gray'
+        borderBottomColor: 'lightgray'
     },
     resultFoundTitle: {
         fontSize: 16,

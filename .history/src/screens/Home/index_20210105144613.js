@@ -1,36 +1,23 @@
 import React, { useRef, useState } from 'react';
-import { Button, FlatList, Modal, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, Modal, SafeAreaView, TextInput, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import html from '../../templates/index.html';
 import themeToStyles from '../../utils/themeToStyles';
 import style from './style';
-
-
-const lightMode = {
-    bg: '#FFF',
-    fg: '#000',
-    size: '100%',
-};
-
-const darkMode = {
-    bg: '#000 !important',
-    fg: '#FFF !important',
-    size: '100%',
-}
 
 function Home() {
     const webview = useRef();
     const fontSizes = ["25%", "50%", "75%", "100%", "125%", "150%", "175%", "200%"];
     const [fontSizeIndex, setFontSizeIndex] = useState(3); // Tamanho de fonte original (100%)
     const [theme, setTheme] = useState({
-        lightMode
+        bg: '#FFF',
+        fg: '#000',
+        size: '100%',
     })
     const [cl, setCl] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
     const [search, setSearch] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(false);
-    const [lastMarkedCfi, setLastMarkedCfi] = useState("");
 
     let injectedJS = `window.BOOK_PATH = "../books/book2.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
@@ -51,18 +38,6 @@ function Home() {
         webview.current?.reload();
     }
 
-    function goToLocation(href) {
-        webview.current?.injectJavaScript(`
-        window.rendition.display('${href}'); 
-        window.rendition.annotations.remove("${lastMarkedCfi}", "highlight");
-        window.rendition.annotations.highlight("${href}", {}, (e) => {
-            console.log("highlight clicked", e.target);
-        }, "", {"fill": "dodgerblue"});
-        true`);
-        setLastMarkedCfi(href);
-        setIsModalVisible(false);
-    }
-
     function decreaseFontSize() {
         var newFontSizeIndex = fontSizeIndex;
 
@@ -71,10 +46,11 @@ function Home() {
             setFontSizeIndex(newFontSizeIndex);
         }
 
-        var newTheme = theme;
-        newTheme.size = fontSizes[newFontSizeIndex];
-
-        setTheme(newTheme);
+        setTheme({
+            bg: '#FFF',
+            fg: '#000',
+            size: fontSizes[newFontSizeIndex],
+        });
         refresh();
     }
 
@@ -86,10 +62,11 @@ function Home() {
             setFontSizeIndex(newFontSizeIndex);
         }
 
-        var newTheme = theme;
-        newTheme.size = fontSizes[newFontSizeIndex];
-
-        setTheme(newTheme);
+        setTheme({
+            bg: '#FFF',
+            fg: '#000',
+            size: fontSizes[newFontSizeIndex],
+        });
         refresh();
     }
 
@@ -132,30 +109,6 @@ function Home() {
         }
     }
 
-    function goDarkMode() {
-        if (!isDarkMode) {
-            var newTheme = darkMode;
-            newTheme.size = fontSizes[fontSizeIndex];
-            setIsDarkMode(true);
-            setTheme(newTheme);
-        }
-        else {
-            var newTheme = lightMode;
-            newTheme.size = fontSizes[fontSizeIndex];
-            setIsDarkMode(false);
-            setTheme(newTheme);
-        }
-        refresh();
-    }
-
-    function renderResult({ item }) {
-        return (
-            <TouchableOpacity style={style.resultFound} activeOpacity={0.4} onPress={() => goToLocation(item.cfi)}>
-                <Text style={style.resultFoundTitle}>{item.excerpt}</Text>
-            </TouchableOpacity>
-        )
-    }
-
     return (
         <SafeAreaView style={style.container}>
             <View style={style.content}>
@@ -184,7 +137,6 @@ function Home() {
             <View style={style.footer}>
                 <Button title='Anterior' color='#FFF' onPress={goPrev} />
                 <Button title='a-' color='#FFF' onPress={decreaseFontSize} />
-                <Button title='o' color='#FFF' onPress={goDarkMode} />
                 <Button title='A+' color='#FFF' onPress={increaseFontSize} />
                 <Button title='Próxima' color='#FFF' onPress={goNext} />
             </View>
@@ -194,15 +146,7 @@ function Home() {
                 transparent={true}>
                 <View style={style.modalContainer}>
                     <View style={style.resultsContainer}>
-                        <View style={style.resultHeader}>
-                            <View></View>
-                            <Text style={style.resultTitle}>{searchResults.length} resultado(s) encontrado(s)</Text>
-                            <Button title="Voltar" onPress={() => setIsModalVisible(false)} />
-                        </View>
-                        <FlatList
-                            data={searchResults}
-                            renderItem={renderResult}
-                            keyExtractor={(item, index) => index.toString()} />
+                        <Button title="Voltar" onPress={() => setIsModalVisible(false)} />
                     </View>
                 </View>
             </Modal>

@@ -30,7 +30,6 @@ function Home() {
     const [search, setSearch] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
-    const [lastMarkedCfi, setLastMarkedCfi] = useState("");
 
     let injectedJS = `window.BOOK_PATH = "../books/book2.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
@@ -52,15 +51,7 @@ function Home() {
     }
 
     function goToLocation(href) {
-        webview.current?.injectJavaScript(`
-        window.rendition.display('${href}'); 
-        window.rendition.annotations.remove("${lastMarkedCfi}", "highlight");
-        window.rendition.annotations.highlight("${href}", {}, (e) => {
-            console.log("highlight clicked", e.target);
-        }, "", {"fill": "dodgerblue"});
-        true`);
-        setLastMarkedCfi(href);
-        setIsModalVisible(false);
+        webview.current?.injectJavaScript(`window.rendition.display('${href}'); true`);
     }
 
     function decreaseFontSize() {
@@ -164,7 +155,7 @@ function Home() {
                     source={html}
                     originWhitelist={["*"]}
                     injectedJavaScriptBeforeContentLoaded={injectedJS}
-                    scrollEnabled={false}
+                    scrollEnabled={true}
                     onLoadStart={(syntheticEvent) => {
                         // update component to be aware of loading status
                         console.log("Start Loading")

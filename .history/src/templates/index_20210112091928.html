@@ -29,7 +29,7 @@
 	window.book = ePub(window.BOOK_PATH);
 	window.rendition = window.book.renderTo(document.getElementById('reader'), {
 		width: '100%',
-		height: '100%',
+		height: '100%'
 	});
 
 	if (window.LOCATIONS) {
@@ -49,7 +49,9 @@
 
 		window.rendition.themes.register({ theme: window.THEME });
 		window.rendition.themes.select('theme');
-
+		rendition.annotations.highlight("epubcfi(/6/4[htmltoc]!/4/6/4/2/2/2,/1:0,/1:6)", {}, (e) => {
+                console.log("highlight clicked", e.target);
+            });
 		// window.ReactNativeWebView.postMessage(
 		// 	JSON.stringify({ type: 'key', key: window.book.key() })
 		// );

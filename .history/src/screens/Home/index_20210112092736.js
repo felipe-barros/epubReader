@@ -30,7 +30,6 @@ function Home() {
     const [search, setSearch] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
-    const [lastMarkedCfi, setLastMarkedCfi] = useState("");
 
     let injectedJS = `window.BOOK_PATH = "../books/book2.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
@@ -54,13 +53,11 @@ function Home() {
     function goToLocation(href) {
         webview.current?.injectJavaScript(`
         window.rendition.display('${href}'); 
-        window.rendition.annotations.remove("${lastMarkedCfi}", "highlight");
         window.rendition.annotations.highlight("${href}", {}, (e) => {
             console.log("highlight clicked", e.target);
-        }, "", {"fill": "dodgerblue"});
+        });
+        rendition.annotations.remove("${href}");
         true`);
-        setLastMarkedCfi(href);
-        setIsModalVisible(false);
     }
 
     function decreaseFontSize() {

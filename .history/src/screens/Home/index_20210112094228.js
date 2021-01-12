@@ -57,10 +57,9 @@ function Home() {
         window.rendition.annotations.remove("${lastMarkedCfi}", "highlight");
         window.rendition.annotations.highlight("${href}", {}, (e) => {
             console.log("highlight clicked", e.target);
-        }, "", {"fill": "dodgerblue"});
+        }, "", {"background-color": '#4287f5 !important'});
         true`);
         setLastMarkedCfi(href);
-        setIsModalVisible(false);
     }
 
     function decreaseFontSize() {

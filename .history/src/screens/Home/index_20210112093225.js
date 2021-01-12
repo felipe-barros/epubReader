@@ -54,13 +54,12 @@ function Home() {
     function goToLocation(href) {
         webview.current?.injectJavaScript(`
         window.rendition.display('${href}'); 
-        window.rendition.annotations.remove("${lastMarkedCfi}", "highlight");
+        window.rendition.annotations.remove("${lastMarkedCfi}");
         window.rendition.annotations.highlight("${href}", {}, (e) => {
             console.log("highlight clicked", e.target);
-        }, "", {"fill": "dodgerblue"});
+        });
         true`);
         setLastMarkedCfi(href);
-        setIsModalVisible(false);
     }
 
     function decreaseFontSize() {

@@ -30,9 +30,8 @@ function Home() {
     const [search, setSearch] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
-    const [lastMarkedCfi, setLastMarkedCfi] = useState("");
 
-    let injectedJS = `window.BOOK_PATH = "../books/book2.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
+    let injectedJS = `window.BOOK_PATH = "../books/book.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
         injectedJS = `${injectedJS}
 		window.BOOK_LOCATION = "${cl}";
@@ -52,15 +51,7 @@ function Home() {
     }
 
     function goToLocation(href) {
-        webview.current?.injectJavaScript(`
-        window.rendition.display('${href}'); 
-        window.rendition.annotations.remove("${lastMarkedCfi}", "highlight");
-        window.rendition.annotations.highlight("${href}", {}, (e) => {
-            console.log("highlight clicked", e.target);
-        }, "", {"fill": "dodgerblue"});
-        true`);
-        setLastMarkedCfi(href);
-        setIsModalVisible(false);
+        webview.current?.injectJavaScript(`window.rendition.display('${href}'); true`);
     }
 
     function decreaseFontSize() {
@@ -72,7 +63,7 @@ function Home() {
         }
 
         var newTheme = theme;
-        newTheme.size = fontSizes[newFontSizeIndex];
+        theme.size = fontSizes[newFontSizeIndex];
 
         setTheme(newTheme);
         refresh();
@@ -87,7 +78,7 @@ function Home() {
         }
 
         var newTheme = theme;
-        newTheme.size = fontSizes[newFontSizeIndex];
+        theme.size = fontSizes[newFontSizeIndex];
 
         setTheme(newTheme);
         refresh();
@@ -133,19 +124,7 @@ function Home() {
     }
 
     function goDarkMode() {
-        if (!isDarkMode) {
-            var newTheme = darkMode;
-            newTheme.size = fontSizes[fontSizeIndex];
-            setIsDarkMode(true);
-            setTheme(newTheme);
-        }
-        else {
-            var newTheme = lightMode;
-            newTheme.size = fontSizes[fontSizeIndex];
-            setIsDarkMode(false);
-            setTheme(newTheme);
-        }
-        refresh();
+        setTheme(newTheme);
     }
 
     function renderResult({ item }) {

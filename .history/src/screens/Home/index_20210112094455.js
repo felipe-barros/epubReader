@@ -60,7 +60,6 @@ function Home() {
         }, "", {"fill": "dodgerblue"});
         true`);
         setLastMarkedCfi(href);
-        setIsModalVisible(false);
     }
 
     function decreaseFontSize() {

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Button, FlatList, Modal, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { WebView } from 'react-native-webview';
-import html from '../../templates/index.html';
+import html from '../../templates/hightlights.html';
 import themeToStyles from '../../utils/themeToStyles';
 import style from './style';
 
@@ -30,7 +30,6 @@ function Home() {
     const [search, setSearch] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
-    const [lastMarkedCfi, setLastMarkedCfi] = useState("");
 
     let injectedJS = `window.BOOK_PATH = "../books/book2.epub"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
@@ -52,15 +51,7 @@ function Home() {
     }
 
     function goToLocation(href) {
-        webview.current?.injectJavaScript(`
-        window.rendition.display('${href}'); 
-        window.rendition.annotations.remove("${lastMarkedCfi}", "highlight");
-        window.rendition.annotations.highlight("${href}", {}, (e) => {
-            console.log("highlight clicked", e.target);
-        }, "", {"fill": "dodgerblue"});
-        true`);
-        setLastMarkedCfi(href);
-        setIsModalVisible(false);
+        webview.current?.injectJavaScript(`window.rendition.display('${href}'); true`);
     }
 
     function decreaseFontSize() {
@@ -109,6 +100,8 @@ function Home() {
 			)
 		); true`);
     }
+
+    console.log
 
     function handleMessage(msg) {
         let parsedData = JSON.parse(msg.nativeEvent.data);

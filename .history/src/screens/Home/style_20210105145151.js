@@ -40,19 +40,9 @@ export default StyleSheet.create({
     resultHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 10
+        alignItems: 'center'
     },
     resultTitle: {
         fontSize: 18
-    },
-    resultFound: {
-        marginBottom: 10,
-        paddingBottom: 10,
-        borderBottomWidth: 0.5,
-        borderBottomColor: 'gray'
-    },
-    resultFoundTitle: {
-        fontSize: 16,
     }
 })

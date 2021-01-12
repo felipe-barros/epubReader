@@ -33,26 +33,7 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFF',
         marginTop: 300,
-        paddingTop: 20,
-        paddingHorizontal: 20,
+        justifyContent: 'center',
         borderRadius: 20
-    },
-    resultHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 10
-    },
-    resultTitle: {
-        fontSize: 18
-    },
-    resultFound: {
-        marginBottom: 10,
-        paddingBottom: 10,
-        borderBottomWidth: 0.5,
-        borderBottomColor: 'gray'
-    },
-    resultFoundTitle: {
-        fontSize: 16,
     }
 })

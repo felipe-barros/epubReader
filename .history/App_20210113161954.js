@@ -7,11 +7,11 @@
  */
 
 import React from 'react';
-import MainNavigator from './src/navigation/MainNavigator';
+import Home from './src/screens/Home';
 
 function App() {
   return (
-    <MainNavigator />
+    <Home />
   );
 };
 

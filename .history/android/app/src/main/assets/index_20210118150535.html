@@ -26,7 +26,7 @@
 	<div id="reader"></div>
 </body>
 <script>
-	window.book = ePub('https://cevativo-hosting-mobilehub-306309057.s3-sa-east-1.amazonaws.com/3o_ano_-_Biologia_A_-_Livro_1_-_refluivel.epub');
+	window.book = ePub('https://cevativo-hosting-mobilehub-306309057.s3-sa-east-1.amazonaws.com/Knight_Withou_Armour.epub');
 	window.rendition = window.book.renderTo(document.getElementById('reader'), {
 		width: '100%',
 		height: '100%',
@@ -49,6 +49,12 @@
 
 		window.rendition.themes.register({ theme: window.THEME });
 		window.rendition.themes.select('theme');
+		window.ReactNativeWebView.postMessage(JSON.stringify({
+			type: 'loc',
+			cfi: e.start.cfi,
+			progress: e.start.location,
+			totalPages: window.book.locations.length()
+		}));
 	});
 
 	rendition.on('relocated', function (e) {

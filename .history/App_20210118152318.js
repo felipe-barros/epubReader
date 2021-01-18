@@ -5,13 +5,16 @@
  * @format
  * @flow strict-local
  */
+import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import 'react-native-gesture-handler';
 import MainNavigator from './src/navigation/MainNavigator';
-// adb -s R9XN504KZSD reverse tcp:8081 tcp:8081
+// adb -s 281019004000202 reverse tcp:8081 tcp:8081
 function App() {
   return (
-    <MainNavigator />
+    <NavigationContainer>
+      <MainNavigator />
+    </NavigationContainer>
   );
 };
 

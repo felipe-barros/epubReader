@@ -7,11 +7,11 @@
  */
 import React from 'react';
 import 'react-native-gesture-handler';
-import MainNavigator from './src/navigation/MainNavigator';
-// adb -s R9XN504KZSD reverse tcp:8081 tcp:8081
+import Home from './src/screens/Home';
+// adb -s 281019004000202 reverse tcp:8081 tcp:8081
 function App() {
   return (
-    <MainNavigator />
+    <Home />
   );
 };
 

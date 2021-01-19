@@ -1,18 +1,35 @@
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 
+const books = [
+    {
+        title: "Biologia - Colégio CEV",
+        path: "file:///android_asset/books/cev.epub"
+    },
+    {
+        title: "Knight without Armour",
+        path: "file:///android_asset/books/example.epub"
+    }
+]
 
 function Home({ navigation }) {
+
+    function renderBook({ item }) {
+        return (
+            <TouchableOpacity onPress={() => navigation.navigate('Reader1', { title: item.title, path: item.path })} style={{ borderBottomWidth: 1, borderBottomColor: 'lightgray', paddingBottom: 20, marginBottom: 10, marginTop: 20 }}>
+                <Text style={{ fontSize: 18 }}>{item.title}</Text>
+            </TouchableOpacity>
+        )
+    }
 
     return (
         <View style={{ backgroundColor: '#FFF', padding: 20, flex: 1 }}>
             <Text style={{ fontSize: 18, fontWeight: '500', color: 'gray' }}>Selecione um Livro</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Reader1')} style={{ borderBottomWidth: 1, borderBottomColor: 'lightgray', paddingBottom: 20, marginBottom: 10, marginTop: 20 }}>
-                <Text style={{ fontSize: 18 }}>Biologia - CEV</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Reader2')} style={{ borderBottomWidth: 1, borderBottomColor: 'lightgray', paddingBottom: 20, marginBottom: 10, marginTop: 20 }}>
-                <Text style={{ fontSize: 18 }}>Knight withou Armour - CEV</Text>
-            </TouchableOpacity>
+            <FlatList
+                data={books}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderBook}
+            />
         </View>
     )
 }

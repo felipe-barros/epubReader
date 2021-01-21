@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { WebView } from 'react-native-webview';
 import htmlPathIos from '../../templates/index.html';
 import themeToStyles from '../../utils/themeToStyles';
-import ModalNote from '../ModalNote';
 import style from './style';
 const lightMode = {
     bg: '#FFF !important',
@@ -76,15 +75,14 @@ function Reader({ navigation, route }) {
         setisModalVisibleSearch(false);
     }
 
-    function highlightText(c, data = "") {
+    function highlightText(c) {
         webview.current?.injectJavaScript(`
         window.rendition.annotations.remove("${c}", "highlight");
-        window.rendition.annotations.highlight("${c}", {data: "${data}"}, (e) => {
+        window.rendition.annotations.highlight("${c}", {data: ""}, (e) => {
 			console.log("highlight clicked", e.target);
         }, "", { "fill": "dodgerblue" });
         true`);
     }
-
 
     function decreaseFontSize() {
         var newFontSizeIndex = fontSizeIndex;
@@ -168,7 +166,6 @@ function Reader({ navigation, route }) {
 
                 setCurrentNote(parsedData.data);
                 setIsModalVisibleNote(true);
-                return;
             default:
                 return;
         }
@@ -320,12 +317,20 @@ function Reader({ navigation, route }) {
                     </View>
                 </View>
             </Modal>
-            <ModalNote
-                isModalVisible={isModalVisibleNote}
-                toggleModal={setIsModalVisibleNote}
-                currentNote={currentNote}
-                isDarkMode={isDarkMode}
-                saveNote={highlightText} />
+            <Modal
+                visible={isModalVisibleNote}
+                animationType="slide"
+                transparent={true}>
+                <View style={style.modalContainer}>
+                    <View style={[style.resultsContainer, { backgroundColor: isDarkMode ? '#666' : '#FFF' }]}>
+                        <TouchableOpacity style={{ backgroundColor: 'red' }}>
+                            <Text style={{ textAlign: 'right' }}>Cancelar</Text>
+                        </TouchableOpacity>
+                        {currentNote && <Text style={{ fontSize: 18, padding: 20, backgroundColor: '#ebebeb', borderLeftWidth: 3, borderLeftColor: 'dodgerblue', marginBottom: 10, color: 'gray' }} numberOfLines={3} ellipsizeMode='tail'>{currentNote.text}</Text>}
+                        <Button title="Salvar" onPress={() => setIsModalVisibleNote(false)} style={{ width: '100%' }} />
+                    </View>
+                </View>
+            </Modal>
         </SafeAreaView>
     )
 }

@@ -4,8 +4,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { WebView } from 'react-native-webview';
 import htmlPathIos from '../../templates/index.html';
 import themeToStyles from '../../utils/themeToStyles';
-import ModalNote from '../ModalNote';
 import style from './style';
+
 const lightMode = {
     bg: '#FFF !important',
     fg: '#000 !important',
@@ -34,11 +34,10 @@ function Reader({ navigation, route }) {
     const [themeStyle, setThemeStyle] = useState({ backgroundColor: '#FFF' });
     const [fontStyle, setFontStyle] = useState({ color: '#000' })
     const [lastMarkedCfi, setLastMarkedCfi] = useState("");
+    const [lastMarkedC, setLastMarkedC] = useState("");
     const [totalPages, setTotalPages] = useState(1);
     const [progress, setProgress] = useState(1);
     const [locations, setLocations] = useState(null);
-    const [isModalVisibleNote, setIsModalVisibleNote] = useState(false);
-    const [currentNote, setCurrentNote] = useState(null);
 
     let injectedJS = `window.BOOK_PATH = "${path}"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
@@ -76,15 +75,15 @@ function Reader({ navigation, route }) {
         setisModalVisibleSearch(false);
     }
 
-    function highlightText(c, data = "") {
+    function highlightText(c) {
         webview.current?.injectJavaScript(`
         window.rendition.annotations.remove("${c}", "highlight");
-        window.rendition.annotations.highlight("${c}", {data: "${data}"}, (e) => {
+        window.rendition.annotations.highlight("${c}", {nome: "Felipe"}, (e) => {
 			console.log("highlight clicked", e.target);
         }, "", { "fill": "dodgerblue" });
         true`);
+        setLastMarkedC(c);
     }
-
 
     function decreaseFontSize() {
         var newFontSizeIndex = fontSizeIndex;
@@ -163,12 +162,7 @@ function Reader({ navigation, route }) {
             case 'highlight':
                 highlightText(parsedData.cfi);
             case 'highlightClicked':
-                if (parsedData.cfi != undefined)
-                    return;
-
-                setCurrentNote(parsedData.data);
-                setIsModalVisibleNote(true);
-                return;
+                console.log(parsedData.data)
             default:
                 return;
         }
@@ -320,12 +314,6 @@ function Reader({ navigation, route }) {
                     </View>
                 </View>
             </Modal>
-            <ModalNote
-                isModalVisible={isModalVisibleNote}
-                toggleModal={setIsModalVisibleNote}
-                currentNote={currentNote}
-                isDarkMode={isDarkMode}
-                saveNote={highlightText} />
         </SafeAreaView>
     )
 }

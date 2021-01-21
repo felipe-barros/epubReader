@@ -79,12 +79,11 @@ function Reader({ navigation, route }) {
     function highlightText(c, data = "") {
         webview.current?.injectJavaScript(`
         window.rendition.annotations.remove("${c}", "highlight");
-        window.rendition.annotations.highlight("${c}", {data: "${data}"}, (e) => {
+        window.rendition.annotations.highlight("${c}", {data: "${data}" (e) => {
 			console.log("highlight clicked", e.target);
         }, "", { "fill": "dodgerblue" });
         true`);
     }
-
 
     function decreaseFontSize() {
         var newFontSizeIndex = fontSizeIndex;
@@ -168,7 +167,6 @@ function Reader({ navigation, route }) {
 
                 setCurrentNote(parsedData.data);
                 setIsModalVisibleNote(true);
-                return;
             default:
                 return;
         }

@@ -76,15 +76,14 @@ function Reader({ navigation, route }) {
         setisModalVisibleSearch(false);
     }
 
-    function highlightText(c, data = "") {
+    function highlightText(c) {
         webview.current?.injectJavaScript(`
         window.rendition.annotations.remove("${c}", "highlight");
-        window.rendition.annotations.highlight("${c}", {data: "${data}"}, (e) => {
+        window.rendition.annotations.highlight("${c}", {data: "" (e) => {
 			console.log("highlight clicked", e.target);
         }, "", { "fill": "dodgerblue" });
         true`);
     }
-
 
     function decreaseFontSize() {
         var newFontSizeIndex = fontSizeIndex;
@@ -162,13 +161,12 @@ function Reader({ navigation, route }) {
                 return;
             case 'highlight':
                 highlightText(parsedData.cfi);
+                return;
             case 'highlightClicked':
                 if (parsedData.cfi != undefined)
                     return;
-
                 setCurrentNote(parsedData.data);
                 setIsModalVisibleNote(true);
-                return;
             default:
                 return;
         }

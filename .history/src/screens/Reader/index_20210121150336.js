@@ -85,7 +85,6 @@ function Reader({ navigation, route }) {
         true`);
     }
 
-
     function decreaseFontSize() {
         var newFontSizeIndex = fontSizeIndex;
 
@@ -168,7 +167,6 @@ function Reader({ navigation, route }) {
 
                 setCurrentNote(parsedData.data);
                 setIsModalVisibleNote(true);
-                return;
             default:
                 return;
         }

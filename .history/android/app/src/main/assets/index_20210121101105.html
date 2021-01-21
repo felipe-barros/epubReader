@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="file:///android_asset/css/examples.css">
@@ -48,7 +48,6 @@
 	});
 
 	rendition.on("selected", function (cfiRange, contents) {
-		window.rendition.annotations.each()
 		window.ReactNativeWebView.postMessage(
 			JSON.stringify({ type: 'highlight', cfi: cfiRange })
 		);
@@ -56,12 +55,13 @@
 	});
 
 	rendition.on("markClicked", function (cfiRange, data, contents) {
+		window.ReactNativeWebView.postMessage(
+			JSON.stringify({ type: 'highlightClicked', data })
+		);
 		window.book.getRange(cfiRange).then((range) => {
 			let text = range.toString();
-			let newData = Object.assign({}, data, { text });
-
 			window.ReactNativeWebView.postMessage(
-				JSON.stringify({ type: 'highlightClicked', data: newData })
+				JSON.stringify({ type: 'teste', teste: text })
 			);
 		});
 	});

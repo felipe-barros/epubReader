@@ -48,7 +48,12 @@
 	});
 
 	rendition.on("selected", function (cfiRange, contents) {
-		window.rendition.annotations.each()
+		var au;
+		window.rendition.annotations.each((c) => { au = c; return });
+
+		window.ReactNativeWebView.postMessage(
+			JSON.stringify({ type: 'teste', teste: au })
+		);
 		window.ReactNativeWebView.postMessage(
 			JSON.stringify({ type: 'highlight', cfi: cfiRange })
 		);

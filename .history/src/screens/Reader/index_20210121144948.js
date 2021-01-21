@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { WebView } from 'react-native-webview';
 import htmlPathIos from '../../templates/index.html';
 import themeToStyles from '../../utils/themeToStyles';
-import ModalNote from '../ModalNote';
 import style from './style';
 const lightMode = {
     bg: '#FFF !important',
@@ -84,7 +83,6 @@ function Reader({ navigation, route }) {
         }, "", { "fill": "dodgerblue" });
         true`);
     }
-
 
     function decreaseFontSize() {
         var newFontSizeIndex = fontSizeIndex;
@@ -168,7 +166,6 @@ function Reader({ navigation, route }) {
 
                 setCurrentNote(parsedData.data);
                 setIsModalVisibleNote(true);
-                return;
             default:
                 return;
         }
@@ -320,12 +317,12 @@ function Reader({ navigation, route }) {
                     </View>
                 </View>
             </Modal>
-            <ModalNote
+            {/* <ModalNote
                 isModalVisible={isModalVisibleNote}
                 toggleModal={setIsModalVisibleNote}
                 currentNote={currentNote}
                 isDarkMode={isDarkMode}
-                saveNote={highlightText} />
+                saveNote={highlightText} /> */}
         </SafeAreaView>
     )
 }

@@ -4,8 +4,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { WebView } from 'react-native-webview';
 import htmlPathIos from '../../templates/index.html';
 import themeToStyles from '../../utils/themeToStyles';
-import ModalNote from '../ModalNote';
 import style from './style';
+
 const lightMode = {
     bg: '#FFF !important',
     fg: '#000 !important',
@@ -38,7 +38,7 @@ function Reader({ navigation, route }) {
     const [progress, setProgress] = useState(1);
     const [locations, setLocations] = useState(null);
     const [isModalVisibleNote, setIsModalVisibleNote] = useState(false);
-    const [currentNote, setCurrentNote] = useState(null);
+    const [currentNoteCfi, setCurrentNoteCfi] = useState(null);
 
     let injectedJS = `window.BOOK_PATH = "${path}"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
@@ -76,15 +76,14 @@ function Reader({ navigation, route }) {
         setisModalVisibleSearch(false);
     }
 
-    function highlightText(c, data = "") {
+    function highlightText(c) {
         webview.current?.injectJavaScript(`
         window.rendition.annotations.remove("${c}", "highlight");
-        window.rendition.annotations.highlight("${c}", {data: "${data}"}, (e) => {
+        window.rendition.annotations.highlight("${c}", {data: ""}, (e) => {
 			console.log("highlight clicked", e.target);
         }, "", { "fill": "dodgerblue" });
         true`);
     }
-
 
     function decreaseFontSize() {
         var newFontSizeIndex = fontSizeIndex;
@@ -163,12 +162,10 @@ function Reader({ navigation, route }) {
             case 'highlight':
                 highlightText(parsedData.cfi);
             case 'highlightClicked':
-                if (parsedData.cfi != undefined)
-                    return;
-
-                setCurrentNote(parsedData.data);
                 setIsModalVisibleNote(true);
-                return;
+                if (parsedData.epubcfi === undefined)
+                    return 
+                setCurrentNoteCfi(parsedData.epubcfi);
             default:
                 return;
         }
@@ -320,12 +317,17 @@ function Reader({ navigation, route }) {
                     </View>
                 </View>
             </Modal>
-            <ModalNote
-                isModalVisible={isModalVisibleNote}
-                toggleModal={setIsModalVisibleNote}
-                currentNote={currentNote}
-                isDarkMode={isDarkMode}
-                saveNote={highlightText} />
+            <Modal
+                visible={isModalVisibleNote}
+                animationType="slide"
+                transparent={true}>
+                <View style={style.modalContainer}>
+                    <View style={[style.resultsContainer, { backgroundColor: isDarkMode ? '#666' : '#FFF' }]}>
+                        <Text>{currentNoteCfi}</Text>
+                        <Button title="Voltar" onPress={() => setIsModalVisibleNote(false)} style={{ width: '100%' }} />
+                    </View>
+                </View>
+            </Modal>
         </SafeAreaView>
     )
 }

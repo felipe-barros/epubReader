@@ -169,6 +169,8 @@ function Reader({ navigation, route }) {
                 setCurrentNote(parsedData.data);
                 setIsModalVisibleNote(true);
                 return;
+            case 'teste':
+                console.log(parsedData.teste);
             default:
                 return;
         }

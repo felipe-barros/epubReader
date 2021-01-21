@@ -48,7 +48,11 @@
 	});
 
 	rendition.on("selected", function (cfiRange, contents) {
-		window.rendition.annotations.each()
+
+		window.ReactNativeWebView.postMessage(
+			JSON.stringify({ type: 'teste', teste: window.rendition.annotations })
+		);
+
 		window.ReactNativeWebView.postMessage(
 			JSON.stringify({ type: 'highlight', cfi: cfiRange })
 		);

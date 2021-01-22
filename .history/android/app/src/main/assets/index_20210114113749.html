@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        #reader {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="reader"></div>
+    <script>
+        window.book = ePub("content://com.android.providers.downloads.documents/document/34");
+        window.rendition = window.book.renderTo(document.getElementById('reader'), {
+            width: '100%',
+            height: '100%',
+        });
+        window.rendition.display();
+        window.ReactNativeWebView.postMessage(
+            JSON.stringify({ type: 'teste', dados: window.BOOK_PATH })
+        )
+    </script>
+</body>
+
+</html>

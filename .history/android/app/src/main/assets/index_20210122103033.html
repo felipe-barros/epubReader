@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="file:///android_asset/css/examples.css">
+</head>
+
+<body>
+	<div id="reader"></div>
+</body>
+<script>
+	window.book = ePub(window.BOOK_PATH);
+	window.rendition = window.book.renderTo(document.getElementById('reader'), {
+		width: 300,
+		height: 300
+	});
+
+	if (window.LOCATIONS) {
+		window.book.locations.load(window.LOCATIONS);
+	} else {
+		window.book.ready.then(() => {
+			window.book.locations.generate(1650).then(() => {
+				window.ReactNativeWebView.postMessage(
+					JSON.stringify({ type: 'locations', locations: window.book.locations.save() })
+				);
+			});
+		});
+	}
+
+	window.rendition.on('started', (e) => {
+		window.rendition.display(window.BOOK_LOCATION)
+
+		window.rendition.themes.register({ theme: window.THEME });
+		window.rendition.themes.select('theme');
+	});
+
+	rendition.on('relocated', function (e) {
+		window.ReactNativeWebView.postMessage(JSON.stringify({
+			type: 'loc',
+			cfi: e.start.cfi,
+			progress: e.start.location,
+			totalPages: window.book.locations.length()
+		}));
+	});
+
+	rendition.on("selected", function (cfiRange, contents) {
+		window.ReactNativeWebView.postMessage(
+			JSON.stringify({ type: 'highlight', cfi: cfiRange })
+		);
+	});
+
+	rendition.on("markClicked", function (cfiRange, data, contents) {
+		window.book.getRange(cfiRange).then((range) => {
+			let text = range.toString();
+			let newData = Object.assign({}, data, { text });
+
+			window.ReactNativeWebView.postMessage(
+				JSON.stringify({ type: 'highlightClicked', data: newData })
+			);
+		});
+	});
+
+</script>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>EPUB.js Pagination Example</title>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="examples.css">
+
+</head>
+
+<body>
+	<div id="viewer"></div>
+
+	<script>
+		// Load the opf
+		var book = ePub(window.BOOK_PATH);
+
+		var rendition = book.renderTo("viewer", {
+			width: "100%",
+		});
+
+		var displayed = rendition.display();
+
+		// Navigation loaded
+		book.loaded.navigation.then(function (toc) {
+			// console.log(toc);
+		});
+
+
+		rendition.on("keyup", keyListener);
+		document.addEventListener("keyup", keyListener, false);
+
+		rendition.on("relocated", function (location) {
+			// console.log(location);
+		});
+
+
+		// Apply a class to selected text
+		rendition.on("selected", function (cfiRange, contents) {
+
+			var m = contents.mark(cfiRange, { 'something': true }, (e) => {
+				var bounds = e.target.getBoundingClientRect();
+				var clientX = e.clientX;
+
+				if (clientX > bounds.right) {
+					console.log("mark clicked", e.target);
+				}
+			});
+
+			contents.window.getSelection().removeAllRanges();
+
+		});
+
+	</script>
+
+</body>
+
+</html>

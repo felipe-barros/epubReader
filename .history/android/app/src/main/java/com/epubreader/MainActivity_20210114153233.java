@@ -1,7 +1,6 @@
 package com.epubreader;
 
 import com.facebook.react.ReactActivity;
-import com.rnfs.RNFSPackage;  // <--- import
 
 public class MainActivity extends ReactActivity {
 
@@ -24,8 +23,7 @@ public class MainActivity extends ReactActivity {
       .setApplication(getApplication())
       .setBundleAssetName("index.android.bundle")
       .setJSMainModuleName("index.android")
-      .addPackage(new MainReactPackage())
-      .addPackage(new RNFSPackage())      // <------- add package
+      .addPackage(new MainReactPackage())    // <------- add package
       .setUseDeveloperSupport(BuildConfig.DEBUG)
       .setInitialLifecycleState(LifecycleState.RESUMED)
       .build();

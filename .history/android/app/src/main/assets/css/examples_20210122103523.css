@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+}
+
+#reader {
+  width: 90vw;
+  height: 90vh;
+  overflow: hidden !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+  

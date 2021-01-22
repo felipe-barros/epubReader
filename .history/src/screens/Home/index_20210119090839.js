@@ -1,0 +1,37 @@
+import React from 'react';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+
+const books = [
+    {
+        title: "Biologia - Colégio CEV",
+        path: "file:///android_asset/books/cev.epub"
+    },
+    {
+        title: "Knight without Armour",
+        path: "file:///android_asset/books/example.epub"
+    }
+]
+
+function Home({ navigation }) {
+
+    function renderBook({ item }) {
+        return (
+            <TouchableOpacity onPress={() => navigation.navigate('Reader1')} style={{ borderBottomWidth: 1, borderBottomColor: 'lightgray', paddingBottom: 20, marginBottom: 10, marginTop: 20 }}>
+                <Text style={{ fontSize: 18 }}>Biologia - CEV</Text>
+            </TouchableOpacity>
+        )
+    }
+
+    return (
+        <View style={{ backgroundColor: '#FFF', padding: 20, flex: 1 }}>
+            <Text style={{ fontSize: 18, fontWeight: '500', color: 'gray' }}>Selecione um Livro</Text>
+            <FlatList
+                data={books}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderBook}
+            />
+        </View>
+    )
+}
+
+export default Home;

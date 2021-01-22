@@ -1,7 +1,8 @@
 let styles = {
     body: {
         background: '#FFF',
-        'font-size': '100%'
+        'font-size': '100%',
+        'user-select': 'none'
     },
     p: {
         color: '#ffffff',
@@ -19,7 +20,7 @@ let styles = {
     },
     '::selection': {
         'background': 'lightskyblue'
-    },
+    }
 };
 
 export default function (theme) {

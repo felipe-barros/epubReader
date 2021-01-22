@@ -19,7 +19,7 @@ let styles = {
     },
     '::selection': {
         'background': 'lightskyblue'
-    },
+    }
 };
 
 export default function (theme) {

@@ -39,6 +39,7 @@ function Reader({ navigation, route }) {
     const [locations, setLocations] = useState(null);
     const [isModalVisibleNote, setIsModalVisibleNote] = useState(false);
     const [currentNote, setCurrentNote] = useState(null);
+    const [notesList, setNotesList] = useState([]);
 
     let injectedJS = `window.BOOK_PATH = "${path}"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {

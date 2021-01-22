@@ -39,6 +39,7 @@ function Reader({ navigation, route }) {
     const [locations, setLocations] = useState(null);
     const [isModalVisibleNote, setIsModalVisibleNote] = useState(false);
     const [currentNote, setCurrentNote] = useState(null);
+    const [notesList, setNotesList] = useState([]);
 
     let injectedJS = `window.BOOK_PATH = "${path}"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
@@ -89,6 +90,15 @@ function Reader({ navigation, route }) {
     }
 
     function highlightText(c, data = "") {
+        var newNotesList = notesList;
+
+        // newNotesList.forEach((c2) => {
+        //     isEarler(c, c2);
+        // });
+        console.log(c);
+        newNotesList.push({ cfi: c, data });
+        setNotesList(newNotesList);
+
         webview.current?.injectJavaScript(`
         window.rendition.annotations.remove("${c}", "highlight");
         window.rendition.annotations.highlight("${c}", {data: "${data}"}, (e) => {

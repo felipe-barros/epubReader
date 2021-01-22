@@ -7,6 +7,21 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="file:///android_asset/css/examples.css">
+	<style>
+		body {
+			-youbkit-touch-callout: none;
+			/* iOS Safari */
+			-youbkit-user-select: none;
+			/* Chrome 6.0+, Safari 3.1+, Edge & Opera 15+ */
+			-moz-user-select: none;
+			/* Firefox */
+			-ms-user-select: none;
+			/* IE 10+ and Edge */
+			user-select: none;
+			/* Non-prefixed version,
+								  currently supported by Chrome and Opera */
+		}
+	</style>
 </head>
 
 <body oncopy='return false' oncut='return false'>
@@ -51,6 +66,7 @@
 		window.ReactNativeWebView.postMessage(
 			JSON.stringify({ type: 'highlight', cfi: cfiRange })
 		);
+		contents.window.getSelection().removeAllRanges();
 	});
 
 	rendition.on("markClicked", function (cfiRange, data, contents) {

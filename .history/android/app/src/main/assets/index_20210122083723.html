@@ -9,7 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="file:///android_asset/css/examples.css">
 </head>
 
-<body oncopy='return false' oncut='return false'>
+<body>
 	<div id="reader"></div>
 </body>
 <script>
@@ -51,6 +51,7 @@
 		window.ReactNativeWebView.postMessage(
 			JSON.stringify({ type: 'highlight', cfi: cfiRange })
 		);
+		contents.window.getSelection().removeAllRanges();
 	});
 
 	rendition.on("markClicked", function (cfiRange, data, contents) {

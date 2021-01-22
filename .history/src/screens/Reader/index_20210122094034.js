@@ -39,6 +39,7 @@ function Reader({ navigation, route }) {
     const [locations, setLocations] = useState(null);
     const [isModalVisibleNote, setIsModalVisibleNote] = useState(false);
     const [currentNote, setCurrentNote] = useState(null);
+    const [notesList, setNotesList] = useState([]);
 
     let injectedJS = `window.BOOK_PATH = "${path}"; window.THEME = ${JSON.stringify(themeToStyles(theme))};`;
     if (cl) {
@@ -78,17 +79,20 @@ function Reader({ navigation, route }) {
 
     function isEarler(c1, c2) {
         c1 = c1.split('/');
-        // Início e Fim do primeiro CFI
-        var c1Inicio = c1[c1.length - 2];
-        var c1Fim = c1[c1.length - 1];
-        c1Fim = c1Fim.slice(0, c1Fim.length - 2);
-        // Início e Fim do segundo CFI
-        var c2Inicio = c2[c2.length - 2];
-        var c2Fim = c2[c2.length - 1];
-        c2Fim = c2Fim.slice(0, c2Fim.length - 2);
+        var c1Inicio = c1[c1.length - 1];
+        console.log(c1Inicio);
     }
 
     function highlightText(c, data = "") {
+        var newNotesList = notesList;
+
+        newNotesList.forEach((c2) => {
+            isEarler(c, c2);
+        });
+
+        newNotesList.push({ cfi: c, data });
+        setNotesList(newNotesList);
+
         webview.current?.injectJavaScript(`
         window.rendition.annotations.remove("${c}", "highlight");
         window.rendition.annotations.highlight("${c}", {data: "${data}"}, (e) => {

@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+}
+  
+#reader {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  right: 0;
+  /* left: 40px; */
+/*   -webkit-transform: translate(40px, 0);
+  -moz-transform: translate(40px, 0); */
+
+  /* border-radius: 5px 0px 0px 5px; */
+  border-radius: 5px;
+  background: #fff;
+  overflow: hidden;
+  -webkit-transition: -webkit-transform .4s, width .2s;
+  -moz-transition: -webkit-transform .4s, width .2s;
+  -ms-transition: -webkit-transform .4s, width .2s;
+
+  -moz-box-shadow:    inset 0 0 50px rgba(0,0,0,.1);
+  -webkit-box-shadow: inset 0 0 50px rgba(0,0,0,.1);
+  -ms-box-shadow: inset 0 0 50px rgba(0,0,0,.1);
+  box-shadow:         inset 0 0 50px rgba(0,0,0,.1);
+}
+  
+/* overflow: hidden !important;
+display: flex;
+justify-content: center;
+align-items: center; */

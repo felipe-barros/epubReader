@@ -10,9 +10,13 @@
 </head>
 
 <body oncopy='return false' oncut='return false'>
-	<div id="reader"></div>
+	<div id="reader" [style.width.px]="readerWidth"></div>
 </body>
 <script>
+	let bookContainer = this.element.nativeElement.querySelector('#book');
+	this.readerWidth = bookContainer.clientWidth;
+	this.readerHeight = this.platform.height() * .96;
+	this.reader = ePub(this.ebook.file, { width: this.readerWidth, height: this.readerHeight });
 	window.book = ePub(window.BOOK_PATH);
 	window.rendition = window.book.renderTo(document.getElementById('reader'), {
 		width: '100%',

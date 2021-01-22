@@ -1,4 +1,4 @@
- body {
+body {
   margin: 0;
   overflow: hidden !important;
 	display: flex;
@@ -9,4 +9,7 @@
 #reader {
 	height: 100vh;
   width: 100vw;
+  text-align: justify !important;
 }
+  
+	

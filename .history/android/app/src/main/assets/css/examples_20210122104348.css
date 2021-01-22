@@ -1,14 +1,14 @@
 body {
 	margin: 0;
-  }
+}
   
-  #reader {
+#reader {
 	height: 100vh;
 	width: 100vw;
 	overflow: hidden !important;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-  }
+}
   
 	

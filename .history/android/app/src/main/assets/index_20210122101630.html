@@ -10,7 +10,7 @@
 </head>
 
 <body oncopy='return false' oncut='return false'>
-	<div id="reader"></div>
+	<div id="reader" [style.width.px]="readerWidth"></div>
 </body>
 <script>
 	window.book = ePub(window.BOOK_PATH);

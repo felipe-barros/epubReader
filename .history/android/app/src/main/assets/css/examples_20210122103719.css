@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+}
+
+#reader {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid red;
+}
+  

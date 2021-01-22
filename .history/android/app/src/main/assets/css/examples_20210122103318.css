@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+}
+
+/* #reader {
+  overflow: hidden !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+#reader iframe {
+  width: 100vh;
+  height: 100vh;
+}
+  

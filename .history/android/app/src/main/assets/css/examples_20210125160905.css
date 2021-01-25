@@ -4,6 +4,7 @@
 	display: flex;
 	justify-content: center;
   align-items: center;
+  background-color: white;
 }
   
 #viewer.spreads {
@@ -13,10 +14,9 @@
 }
 
 #viewer.spreads .epub-view > iframe {
-    /* background: white; */
+    background: white;
 }
 
 svg {
   display: block;
-  z-index: -1;
 }

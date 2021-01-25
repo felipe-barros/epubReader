@@ -22,7 +22,7 @@ function ModalNote({ toggleModal, currentNote, isModalVisible, isDarkMode, saveN
                             <TouchableOpacity onPress={() => { removeNote(currentNote.epubcfi); toggleModal(false); }} style={{ padding: 10, alignSelf: 'flex-end' }}>
                                 <Text style={{ textAlign: 'center', fontSize: 18, color: 'dodgerblue', marginBottom: 10 }}>Remover</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => { saveNote(currentNote.epubcfi, note, color); toggleModal(false); }} style={{ padding: 10, alignSelf: 'flex-end' }}>
+                            <TouchableOpacity onPress={() => { saveNote(currentNote.epubcfi, note); toggleModal(false); }} style={{ padding: 10, alignSelf: 'flex-end' }}>
                                 <Text style={{ textAlign: 'center', fontSize: 18, color: 'dodgerblue', marginBottom: 10 }}>Salvar</Text>
                             </TouchableOpacity>
                         </View>

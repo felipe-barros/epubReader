@@ -4,16 +4,18 @@
 	display: flex;
 	justify-content: center;
   align-items: center;
+  background-color: red;
 }
   
 #viewer.spreads {
   width: 100vw;
   height: 100vh;
   /* background: white url('ajax-loader.gif') center center no-repeat; */
+  background: green;
 }
 
 #viewer.spreads .epub-view > iframe {
-    /* background: white; */
+    background: blue;
 }
 
 svg {

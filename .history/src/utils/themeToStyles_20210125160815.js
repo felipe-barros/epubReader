@@ -24,7 +24,7 @@ let styles = {
 
 export default function (theme) {
     styles.body = {
-        // background: theme.bg,
+        background: theme.bg,
         color: theme.fg,
         'font-size': theme.size,
     };

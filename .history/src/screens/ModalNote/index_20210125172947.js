@@ -4,7 +4,6 @@ import style from './style';
 
 function ModalNote({ toggleModal, currentNote, isModalVisible, isDarkMode, saveNote, removeNote }) {
     const [note, setNote] = useState(currentNote ? currentNote.data : "");
-    const [color, setColor] = useState('dodgerblue');
 
     useEffect(() => {
         setNote(currentNote ? currentNote.data : "")
@@ -22,23 +21,12 @@ function ModalNote({ toggleModal, currentNote, isModalVisible, isDarkMode, saveN
                             <TouchableOpacity onPress={() => { removeNote(currentNote.epubcfi); toggleModal(false); }} style={{ padding: 10, alignSelf: 'flex-end' }}>
                                 <Text style={{ textAlign: 'center', fontSize: 18, color: 'dodgerblue', marginBottom: 10 }}>Remover</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => { saveNote(currentNote.epubcfi, note, color); toggleModal(false); }} style={{ padding: 10, alignSelf: 'flex-end' }}>
+                            <TouchableOpacity onPress={() => { saveNote(currentNote.epubcfi, note); toggleModal(false); }} style={{ padding: 10, alignSelf: 'flex-end' }}>
                                 <Text style={{ textAlign: 'center', fontSize: 18, color: 'dodgerblue', marginBottom: 10 }}>Salvar</Text>
                             </TouchableOpacity>
                         </View>
-
-                        {currentNote && <Text style={{ fontSize: 18, padding: 20, backgroundColor: '#ebebeb', borderLeftWidth: 3, borderLeftColor: color, marginBottom: 10, color: 'gray' }} numberOfLines={3} ellipsizeMode='tail'>{currentNote.text}</Text>}
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 20 }}>
-                            <TouchableOpacity onPress={() => setColor('dodgerblue')}>
-                                <View style={{ width: 50, height: 50, backgroundColor: 'dodgerblue', borderRadius: 25 }}></View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setColor('tomato')}>
-                                <View style={{ width: 50, height: 50, backgroundColor: 'tomato', borderRadius: 25, marginHorizontal: 10 }}></View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setColor('mediumseagreen')}>
-                                <View style={{ width: 50, height: 50, backgroundColor: 'mediumseagreen', borderRadius: 25 }}></View>
-                            </TouchableOpacity>
-                        </View>
+                        <View style={{ width: 50, height: 50, backgroundColor: 'tomato' }}></View>
+                        {currentNote && <Text style={{ fontSize: 18, padding: 20, backgroundColor: '#ebebeb', borderLeftWidth: 3, borderLeftColor: 'dodgerblue', marginBottom: 10, color: 'gray' }} numberOfLines={3} ellipsizeMode='tail'>{currentNote.text}</Text>}
                         <TextInput
                             placeholder="Adicionar nota à marcação"
                             autoFocus={true}
@@ -52,7 +40,7 @@ function ModalNote({ toggleModal, currentNote, isModalVisible, isDarkMode, saveN
                     </View>
                 </View>
             </Modal>
-        </SafeAreaView >
+        </SafeAreaView>
     )
 }
 

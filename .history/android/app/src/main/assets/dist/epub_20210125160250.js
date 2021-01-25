@@ -11839,7 +11839,7 @@
 
           const attributes = Object.assign({
             "fill": "yellow",
-            "fill-opacity": "0.75",
+            "fill-opacity": "1",
             "mix-blend-mode": "multiply"
           }, styles);
           let range = this.contents.range(cfiRange);

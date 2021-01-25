@@ -4,11 +4,15 @@
 	display: flex;
 	justify-content: center;
   align-items: center;
+  background-color: red;
 }
   
 #viewer.spreads {
   width: 100vw;
   height: 100vh;
+  box-shadow: 0 0 4px #ccc;
+  padding: 0;
+  position: relative;
   /* background: white url('ajax-loader.gif') center center no-repeat; */
 }
 
@@ -18,5 +22,4 @@
 
 svg {
   display: block;
-  z-index: -1;
 }

@@ -1,0 +1,17 @@
+ body {
+  margin: 0;
+  overflow: hidden !important;
+	display: flex;
+	justify-content: center;
+  align-items: center;
+  background-color: red;
+}
+  
+#viewer {
+	height: 100vh;
+  width: 100vw;
+}
+
+svg {
+  display: block;
+}

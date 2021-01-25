@@ -88,19 +88,16 @@ function Reader({ navigation, route }) {
         c2Fim = c2Fim.slice(0, c2Fim.length - 2);
     }
 
-    function highlightText(c, data = "", color = 'dodgerblue') {
-        console.log(c);
+    function highlightText(c, data = "") {
         webview.current?.injectJavaScript(`
-        window.rendition.annotations.remove("${c}", "highlight");
-        window.rendition.annotations.add("highlight", "${c}", {data: "${data}"}, (e) => {}, "", { "fill": "${color}" });
+        window.rendition.annotations.add("highlight",${c}", {data: "${data}"}, (e) => {
+			console.log("highlight clicked", e.target);
+        }, "", { "fill": "dodgerblue" });
+        window.ReactNativeWebView.postMessage(
+            JSON.stringify({ type: 'teste', teste: 'A' })
+        );
         true`);
-    }
-
-    function removeHighlight(c) {
-        console.log(c);
-        webview.current?.injectJavaScript(`
-        window.rendition.annotations.remove("${c}", "highlight");
-        true`);
+        console.log('A')
     }
 
 
@@ -180,7 +177,6 @@ function Reader({ navigation, route }) {
                 return;
             case 'highlight':
                 highlightText(parsedData.cfi);
-                return;
             case 'highlightClicked':
                 if (parsedData.cfi != undefined)
                     return;
@@ -188,6 +184,8 @@ function Reader({ navigation, route }) {
                 setCurrentNote(parsedData.data);
                 setIsModalVisibleNote(true);
                 return;
+            case 'teste':
+                console.log(parsedData.teste);
             default:
                 return;
         }
@@ -344,9 +342,7 @@ function Reader({ navigation, route }) {
                 toggleModal={setIsModalVisibleNote}
                 currentNote={currentNote}
                 isDarkMode={isDarkMode}
-                saveNote={highlightText}
-                removeNote={removeHighlight}
-            />
+                saveNote={highlightText} />
         </SafeAreaView>
     )
 }

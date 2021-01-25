@@ -4,6 +4,7 @@
 	display: flex;
 	justify-content: center;
   align-items: center;
+  background-color: white;
 }
   
 #viewer.spreads {
@@ -18,5 +19,4 @@
 
 svg {
   display: block;
-  z-index: -1;
 }

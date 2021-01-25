@@ -88,11 +88,11 @@ function Reader({ navigation, route }) {
         c2Fim = c2Fim.slice(0, c2Fim.length - 2);
     }
 
-    function highlightText(c, data = "", color = 'dodgerblue') {
+    function highlightText(c, data = "") {
         console.log(c);
         webview.current?.injectJavaScript(`
         window.rendition.annotations.remove("${c}", "highlight");
-        window.rendition.annotations.add("highlight", "${c}", {data: "${data}"}, (e) => {}, "", { "fill": "${color}" });
+        window.rendition.annotations.add("highlight", "${c}", {data: "${data}"}, (e) => {}, "", { "fill": "dodgerblue" });
         true`);
     }
 
@@ -344,9 +344,7 @@ function Reader({ navigation, route }) {
                 toggleModal={setIsModalVisibleNote}
                 currentNote={currentNote}
                 isDarkMode={isDarkMode}
-                saveNote={highlightText}
-                removeNote={removeHighlight}
-            />
+                saveNote={highlightText} />
         </SafeAreaView>
     )
 }

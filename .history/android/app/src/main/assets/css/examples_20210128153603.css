@@ -1,0 +1,22 @@
+ body {
+  margin: 0;
+  overflow: hidden !important;
+	display: flex;
+	justify-content: center;
+  align-items: center;
+}
+  
+#viewer.spreads {
+  width: 100vw;
+  height: 100vh;
+  /* background: white url('ajax-loader.gif') center center no-repeat; */
+}
+
+#viewer.spreads .epub-view > iframe {
+    /* background: white; */
+}
+
+svg {
+  display: block;
+  z-index: -1;
+}

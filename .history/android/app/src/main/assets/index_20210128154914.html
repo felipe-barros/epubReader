@@ -34,28 +34,28 @@
 		window.rendition.themes.select('theme');
 	});
 
-	window.rendition.on('displayed', (e) => {
-		if (window.LOCATIONS) {
-			window.book.locations.load(window.LOCATIONS);
-		} else {
-			window.book.ready.then(() => {
-				window.book.locations.generate(1650).then(() => {
-					window.ReactNativeWebView.postMessage(
-						JSON.stringify({
-							type: 'locations',
-							locations: window.book.locations.save(),
-							totalPages: window.book.locations.length(),
-							isLoading: false
-						})
-					);
-				});
-			});
-			window.ReactNativeWebView.postMessage(JSON.stringify({
-				type: 'flag',
-				flag: "Calculou de novo",
-			}));
-		}
-	})
+	// window.rendition.on('displayed', (e) => {
+	// 	if (window.LOCATIONS) {
+	// 		window.book.locations.load(window.LOCATIONS);
+	// 	} else {
+	// 		window.book.ready.then(() => {
+	// 			window.book.locations.generate(1650).then(() => {
+	// 				window.ReactNativeWebView.postMessage(
+	// 					JSON.stringify({
+	// 						type: 'locations',
+	// 						locations: window.book.locations.save(),
+	// 						totalPages: window.book.locations.length(),
+	// 						isLoading: false
+	// 					})
+	// 				);
+	// 			});
+	// 		});
+	// 		window.ReactNativeWebView.postMessage(JSON.stringify({
+	// 			type: 'flag',
+	// 			flag: "Calculou de novo",
+	// 		}));
+	// 	}
+	// })
 
 	window.rendition.on('relocated', function (e) {
 		window.ReactNativeWebView.postMessage(JSON.stringify({

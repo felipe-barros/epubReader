@@ -15,9 +15,7 @@ let styles = {
         color: '#ffffff',
     },
     a: {
-        color: '#FFF',
-        'pointer-events': 'none',
-        cursor: 'default'
+        color: '#FFF !important',
     },
     '::selection': {
         'background': 'lightskyblue'
@@ -38,11 +36,9 @@ export default function (theme) {
         color: theme.fg,
         'font-size': theme.size,
     };
-    styles.a = {
-        color: theme.fg,
-        'pointer-events': 'none',
-        cursor: 'default'
-    };
+    // styles.a = {
+    //     // color: theme.fg
+    // };
     styles.h1.color = theme.fg;
     return styles;
 }

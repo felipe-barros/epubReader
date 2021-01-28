@@ -89,12 +89,8 @@
 	});
 
 	$("a").on("click", function (e) {
-		alert("INFERNO");
 		e.preventDefault();
-		window.ReactNativeWebView.postMessage(JSON.stringify({
-			type: 'flag',
-			flag: "Fora bolsonaro",
-		}));
+		alert("Fora bolsonaro")
 	});
 
 </script>

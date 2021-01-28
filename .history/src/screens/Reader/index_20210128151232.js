@@ -84,7 +84,6 @@ function Reader({ navigation, route }) {
     }
 
     function goToLocation(href) {
-        console.log("Mudar de página:", href);
         webview.current?.injectJavaScript(`
         window.LOCATIONS=${locations};
         window.rendition.display('${href}'); 
@@ -245,7 +244,6 @@ function Reader({ navigation, route }) {
                 }
                 return;
             case 'loc':
-                console.log(parsedData.cfi)
                 setProgress(parsedData.progress + 1);
                 setCl(parsedData.cfi);
                 return;

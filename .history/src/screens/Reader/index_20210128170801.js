@@ -84,7 +84,7 @@ function Reader({ navigation, route }) {
     }
 
     function goToLocation(href) {
-        console.log("Mudar de página:", href);
+        console.log(href);
         webview.current?.injectJavaScript(`
         window.LOCATIONS=${locations};
         window.rendition.display('${href}'); 

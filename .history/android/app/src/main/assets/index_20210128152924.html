@@ -6,8 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
 	<script src="file:///android_asset/dist/epub.js"></script>
-	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/detect_swipe/2.1.1/jquery.detect_swipe.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="file:///android_asset/css/examples.css">
 </head>
 
@@ -86,15 +84,6 @@
 				JSON.stringify({ type: 'highlightClicked', data: newData })
 			);
 		});
-	});
-
-	$("a").on("click", function (e) {
-		alert("INFERNO");
-		e.preventDefault();
-		window.ReactNativeWebView.postMessage(JSON.stringify({
-			type: 'flag',
-			flag: "Fora bolsonaro",
-		}));
 	});
 
 </script>

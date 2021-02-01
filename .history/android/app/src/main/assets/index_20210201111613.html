@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+	<script src="file:///android_asset/dist/epub.js"></script>
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/detect_swipe/2.1.1/jquery.detect_swipe.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="file:///android_asset/css/examples.css">
+</head>
+
+<body>
+	<div id="viewer" class="spreads"></div>
+</body>
+<script>
+	window.book = ePub(window.BOOK_PATH);
+	window.rendition = window.book.renderTo(document.getElementById('viewer'), {
+		width: '100%',
+		height: '100%',
+		manager: "continuous",
+		flow: "paginated",
+		snap: true,
+		fixedLayout: true
+	});
+
+	window.rendition.on('started', (e) => {
+		window.ReactNativeWebView.postMessage(
+			JSON.stringify({ type: 'isLoading', isLoading: true })
+		);
+		window.rendition.display(window.BOOK_LOCATION);
+
+		window.rendition.themes.register({ theme: window.THEME });
+		window.rendition.themes.select('theme');
+	});
+
+	window.rendition.on('displayed', (e) => {
+		if (window.LOCATIONS) {
+			window.book.locations.load(window.LOCATIONS);
+		} else {
+			window.book.ready.then(() => {
+				window.book.locations.generate(800).then(() => {
+					window.ReactNativeWebView.postMessage(
+						JSON.stringify({
+							type: 'locations',
+							locations: window.book.locations.save(),
+							totalPages: window.book.locations.length(),
+							isLoading: false
+						})
+					);
+				});
+			});
+			window.ReactNativeWebView.postMessage(JSON.stringify({
+				type: 'flag',
+				flag: "Calculou de novo",
+			}));
+		}
+	})
+
+	window.rendition.on('relocated', function (e) {
+		window.ReactNativeWebView.postMessage(JSON.stringify({
+			type: 'loc',
+			cfi: e.start.cfi,
+			progress: e.start.location,
+			teste: e
+		}));
+	});
+
+	window.rendition.on("selected", function (cfiRange, contents) {
+		window.book.getRange(cfiRange).then((range) => {
+			let text = range.toString();
+
+			window.ReactNativeWebView.postMessage(
+				JSON.stringify({ type: 'highlight', data: { cfi: cfiRange, text, data: "" } })
+			);
+			contents.window.getSelection().removeAllRanges();
+		});
+	});
+
+
+	window.rendition.on("markClicked", function (cfiRange, data, contents) {
+		window.book.getRange(cfiRange).then((range) => {
+			let text = range.toString();
+			let newData = Object.assign({}, data, { text });
+
+			window.ReactNativeWebView.postMessage(
+				JSON.stringify({ type: 'highlightClicked', data: newData })
+			);
+		});
+	});
+
+	$("a").on("click", function (e) {
+		alert("INFERNO");
+		e.preventDefault();
+		window.ReactNativeWebView.postMessage(JSON.stringify({
+			type: 'flag',
+			flag: "Fora bolsonaro",
+		}));
+	});
+
+</script>
+
+</html>
